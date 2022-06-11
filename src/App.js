@@ -1,10 +1,14 @@
-
+import Header from './components/Header';
+import Form from './components/Form';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <main className='container mx-auto'>
+      <Header />
+      <Form />
+      <Footer />
+    </main>
   );
 }
 
