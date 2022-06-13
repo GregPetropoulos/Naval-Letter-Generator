@@ -6,7 +6,7 @@ const Header = () => {
       // <header>
       <Fragment>
         <div className='flex justify-center items-center'>
-        <img classNamne='m-0' src={headerLogo} alt='Marine Coders Logo' />
+        <img className='m-0' src={headerLogo} alt='Marine Coders Logo' />
         </div>
       </Fragment>
         

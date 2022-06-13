@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import Radios from './Radios';
 import InputFields from './InputFields';
 import BodyBlock from './BodyBlock';
+import ClosingBlock from './ClosingBlock';
 
 const Form = () => {
   return (
@@ -13,6 +14,7 @@ const Form = () => {
         <InputFields />
         <Radios />
         <BodyBlock />
+        <ClosingBlock/>
       </div>
     </Fragment>
   );
