@@ -11,6 +11,7 @@ const InputFields = () => {
         type='text'
       />
       <label className='sm:text-xl mt-7'> Address Information:</label>
+      <button className='btn btn-sm mb-2 w-1/2 sm:btn'>RUC/MCC Table</button>
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Line 1 (Unit Name):'
@@ -27,6 +28,7 @@ const InputFields = () => {
         type='text'
       />
       <label className='sm:text-xl mt-7'> Header Information:</label>
+      <button className='btn btn-sm mb-2 w-1/2 sm:btn'>SSIC Manual</button>
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Enter your SSIC:'
