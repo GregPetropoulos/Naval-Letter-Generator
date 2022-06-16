@@ -26,7 +26,7 @@ const Radios = () => {
     setAddEncInput([{ enclosures: '' }]);
   };
 
-  // * HANDLING THE ADDITION OF HTML INPUT ELEMENTS
+  // * HANDLING THE ADDITION OF HTML INPUT ELEMENTS AMD STATE UPDATES
   const addViaInputTag = () => {
     setAddViaInput((prev) => [...prev, { via: '' }]);
   };
@@ -84,10 +84,9 @@ const Radios = () => {
   return (
     <Fragment>
       <label className='sm:text-xl mt-7'> Optional Items</label>
-      
+
       {/****--------------1st RADIO BUTTON AND FIELDS-----------------****/}
       <div className='form-control block items-center text-xs my-1 sm:text-lg'>
-
         <label className='mb-2 mr-2'> Do you have a VIA?</label>
         <input
           type='radio'
@@ -127,7 +126,7 @@ const Radios = () => {
               {addViaInput.length - 1 === index && addViaInput.length < 3 && (
                 <button
                   type='button'
-                  className='btn mr-4 btn-sm sm:btn'
+                  className='btn mr-4 mb-3 btn-sm sm:btn'
                   onClick={addViaInputTag}>
                   Add VIA
                 </button>
@@ -186,7 +185,7 @@ const Radios = () => {
               {addRefInput.length - 1 === index && addRefInput.length < 3 && (
                 <button
                   type='button'
-                  className='btn mr-4 btn-sm sm:btn'
+                  className='btn mr-4 mb-3 btn-sm sm:btn'
                   onClick={addRefInputTag}>
                   Add Ref
                 </button>
@@ -244,7 +243,7 @@ const Radios = () => {
               {addEncInput.length - 1 === index && addEncInput.length < 3 && (
                 <button
                   type='button'
-                  className='btn mr-4 btn-sm sm:btn'
+                  className='btn mr-4 mb-3 btn-sm sm:btn'
                   onClick={addEncInputTag}>
                   Add Encl
                 </button>

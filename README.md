@@ -17,6 +17,10 @@ Purpose of the letter is to reduce the time and effort to create a naval letter 
 - Handle the letter editing with js
 - Deploy Github/Vercel
 
+## Features
+- Tool tips for clarity
+- FAQ page
+
 ## Input Fields
 
 ## Radio Buttons

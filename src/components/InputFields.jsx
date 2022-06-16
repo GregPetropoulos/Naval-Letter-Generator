@@ -56,6 +56,7 @@ const InputFields = () => {
         type='text'
       />
       <input
+        spellCheck='true'
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Enter The Subject(toUpperCase()):'
         type='text'
