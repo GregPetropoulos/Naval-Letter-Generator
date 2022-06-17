@@ -30,9 +30,12 @@ Purpose of the letter is to reduce the time and effort to create a naval letter 
 - Limited entries
 
 ## Body Block
+- Limited to 10 paragraphs (can be changed later)
+- Each paragraph item  consist of `pId`, `paragraph`, and a `subP`
 
 ## Closing Block
-
+## Submitting The Form 
+- State--> into JSON body
 ## Word Docx
 
 ## The Expected Outcome
