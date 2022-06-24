@@ -63,3 +63,36 @@ Purpose of the letter is to reduce the time and effort to create a naval letter 
 ## The Expected Outcome
 
 ## The Actual Outcome
+
+## Test
+**Paragraph Test**
+
+**Create**
+- Create a paragraph
+- Create 2 paragraphs
+- Create 1 paragraph with  3 sub paragraphs
+- Create 1 paragraph with 3 sub paragraphs and a 2nd paragraph
+- Create 1 paragraph and a 2nd paragraph with 3 sub paragraphs
+- Create 1 paragraph with 3 sub paragraphs and a 2nd paragraph with 3 sub paragraphs
+
+**Delete**
+- Delete a paragraph
+- Delete 2 paragraphs
+- Delete sub paragraphs in reverse order of created order in 1 paragraph
+- Delete sub paragraphs in reverse order of created order in 2nd paragraph, and 1st paragraph exists
+- Delete the whole paragraph item including it's sub paragraphs
+- Delete paragraphs out of order
+
+**Edit**
+
+Live edit on all paragraphs and sub paragraphs
+
+**Input Field Test**
+
+**Radio Button Test**
+
+**Mobile test**
+
+**Word Doc Test**
+
+
