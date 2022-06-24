@@ -1,10 +1,8 @@
 import { Fragment, useState } from 'react';
-// This will need be part of an editor with live preview
+// This will need to be part of an editor with live preview
 
 const BodyBlock = () => {
-  const [isParagraph, setIsParagraph] = useState(false);
-  const [isSub, setIsSub] = useState(false);
-  console.log('isSub', isSub);
+
   const [paragraphs, setParagraphs] = useState([
     {
       pId: 1,
@@ -12,9 +10,8 @@ const BodyBlock = () => {
       subParagraph: []
     }
   ]);
-  console.log('paragraphs', paragraphs);
 
-  // *WORKS
+
   // *HANDLE ADDING A PARAGRAPH
   const addParagraph = () => {
     let arr = [...paragraphs];
@@ -27,12 +24,10 @@ const BodyBlock = () => {
     }
   };
 
-  // *WORKS
+
   // *HANDLE ADDING A SUBPARAGRAPH
   const addSubP = (id) => {
-    console.log('clicked to Add subABC');
     let arr = [...paragraphs];
-    console.log('id in add sub', id);
     const addSubPArr = arr.map((item) => {
       const { pId, subParagraph } = item;
       return pId === id && subParagraph.length === 0
@@ -57,7 +52,6 @@ const BodyBlock = () => {
     setParagraphs(addSubPArr);
   };
 
-  // *WORKS
   // *HANDLE REMOVING PARAGRAPH
   const removeParagraph = (id) => {
     let paragraphArr = [...paragraphs];
@@ -69,11 +63,10 @@ const BodyBlock = () => {
       setParagraphs([{ pId: 1, paragraph: '', subParagraph: [] }]);
     }
   };
-  // *WORKS
+
   // *HANDLE REMOVING SUBPARAGRAPH BY ID AND MAPPED VALUES FROM STATE TO UI
   const removeSubParagraph = (subItem, id) => {
     let paragraphArr = [...paragraphs];
-    console.log('subItem.length', subItem);
 
     const newList = () => {
       return paragraphArr.map((item) => {
@@ -132,21 +125,17 @@ const BodyBlock = () => {
             <div
               className='btn-group my-3 flex flex-row justify-between'
               key={item.pId}>
-              {/* {paragraphs.indexOf(item.pId) === paragraphs.length - 1 &&
-              paragraphs.length < 10 && ( */}
               <button
-                className='btn btn-xs btn-neutral-content sm:btn'
+                className='btn btn-xs my-2 btn-neutral-content sm:btn'
                 onClick={addParagraph}>
-                Add A Para.
+                Add Para.
               </button>
-              {/* {paragraphs.length >= 0 && paragraphs.length < 11 && ( */}
               <button
-                className='btn btn-xs bg-error-content sm:btn sm:bg-error-content'
+                className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
                 onClick={() => {
                   removeParagraph(item.pId);
-                  setIsParagraph(true);
                 }}>
-                Delete A Paragraph
+                Delete Para.
               </button>
             </div>
             {/* --------------1st SUB PARA-------------------- */}
@@ -169,19 +158,10 @@ const BodyBlock = () => {
                       idx === 0 ? 'a' : idx === 1 ? 'b' : 'c'
                     }`}
                   />
-                  {/* Buttons----------------------- */}
+                  {/* Sub Paragraph Buttons----------------------- */}
                   <div className='btn-group my-3 flex flex-row justify-between'>
                     <button
                       className='btn btn-xs bg-error-content sm:btn sm:bg-error-content'
-                      // disabled={
-                      //   (idx<=1)&& isSub===true? 'disabled' : ''
-                      // }
-                      // disabled={
-                      //   (subItem.name==='subA'||subItem.name==='subB')&& isSub===false? 'disabled' : ''
-                      // }
-                      // disabled={
-                      //   (idx===0|| idx===1) && idx<2? 'disabled': idx===0: ''
-                      // }
                       disabled={
                         item.subParagraph.length - 2 === idx ||
                         item.subParagraph.length - 3 === idx
@@ -190,9 +170,8 @@ const BodyBlock = () => {
                       }
                       onClick={() => {
                         removeSubParagraph(subItem, item.pId);
-                        setIsSub(!isSub);
                       }}>
-                      Delete a sub
+                      Delete sub
                     </button>
                   </div>
                 </div>
@@ -206,9 +185,8 @@ const BodyBlock = () => {
                 }
                 onClick={() => {
                   addSubP(item.pId);
-                  setIsSub(true);
                 }}>
-                Add a sub
+                Add sub
               </button>
             </div>
           </div>
