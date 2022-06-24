@@ -3,10 +3,8 @@ import { Fragment, useState } from 'react';
 
 const BodyBlock = () => {
   const [isParagraph, setIsParagraph] = useState(false);
-  const [isSubA, setIsSubA] = useState(false);
-  const [isSubB, setIsSubB] = useState(false);
-  const [isSubC, setIsSubC] = useState(false);
-  const [isSub, setIsSub] = useState(null);
+  const [isSub, setIsSub] = useState(false);
+  console.log('isSub', isSub);
   const [paragraphs, setParagraphs] = useState([
     {
       pId: 1,
@@ -31,21 +29,18 @@ const BodyBlock = () => {
 
   // *WORKS
   // *HANDLE ADDING A SUBPARAGRAPH
-  const addSubP = ( id) => {
+  const addSubP = (id) => {
     console.log('clicked to Add subABC');
     let arr = [...paragraphs];
     console.log('id in add sub', id);
     const addSubPArr = arr.map((item) => {
       const { pId, subParagraph } = item;
       return pId === id && subParagraph.length === 0
-        ? { ...item, subParagraph: [{ name: 'test1', text: 'text test1' }] }
+        ? { ...item, subParagraph: [{ name: 'subA', text: '' }] }
         : pId === id && subParagraph.length === 1
         ? {
             ...item,
-            subParagraph: [
-              subParagraph[0],
-              { name: 'test2', text: 'text test2' }
-            ]
+            subParagraph: [subParagraph[0], { name: 'subB', text: '' }]
           }
         : item.pId === id && subParagraph.length === 2
         ? {
@@ -53,7 +48,7 @@ const BodyBlock = () => {
             subParagraph: [
               subParagraph[0],
               subParagraph[1],
-              { name: 'test3', text: 'text test3' }
+              { name: 'subC', text: '' }
             ]
           }
         : item;
@@ -61,6 +56,7 @@ const BodyBlock = () => {
 
     setParagraphs(addSubPArr);
   };
+
   // *WORKS
   // *HANDLE REMOVING PARAGRAPH
   const removeParagraph = (id) => {
@@ -70,13 +66,14 @@ const BodyBlock = () => {
       setParagraphs(newList);
     }
     if (paragraphArr.length === 1) {
-      setParagraphs(paragraphs);
+      setParagraphs([{ pId: 1, paragraph: '', subParagraph: [] }]);
     }
   };
   // *WORKS
   // *HANDLE REMOVING SUBPARAGRAPH BY ID AND MAPPED VALUES FROM STATE TO UI
   const removeSubParagraph = (subItem, id) => {
     let paragraphArr = [...paragraphs];
+    console.log('subItem.length', subItem);
 
     const newList = () => {
       return paragraphArr.map((item) => {
@@ -89,20 +86,6 @@ const BodyBlock = () => {
           : pId === id && subParagraph.length === 3
           ? { pId, paragraph, subParagraph: [subParagraph[0], subParagraph[1]] }
           : item;
-        // if (pId === id && subParagraph.length === 1) {
-        //   return { pId, paragraph, subParagraph: [] };
-        // }
-        // if (pId === id && subParagraph.length === 2) {
-        //   return { pId, paragraph, subParagraph: [subParagraph[0]] };
-        // }
-        // if (pId === id && subParagraph.length === 3) {
-        //   return {
-        //     pId,
-        //     paragraph,
-        //     subParagraph: [subParagraph[0], subParagraph[1]]
-        //   };
-        // }
-        // return item;
       });
     };
     setParagraphs(newList);
@@ -111,46 +94,20 @@ const BodyBlock = () => {
   // *HANDLE ONCHANGE TEXT INPUTS
   const bodyBlockOnChange = (e, itemPid, index) => {
     let paragraphText = [...paragraphs];
-    const { name, value, id } = e.target;
-    // console.log('name', name);
-    // console.log('value', value);
-    // console.log('id', id);
-    // console.log('itemPid', itemPid);
-
+    const { name, value } = e.target;
     // ex:[{name:'a'},{name:'b'},{name:'c'},{name:'d'}][2][name]='c'
     paragraphText[index][name] = value;
 
     setParagraphs(paragraphText);
   };
 
-  // ?? NEEDS WORK
-  // TODO NEED TO CHANGE THIS INDEX TO THE pId
-  const subParagraphOnChange = (e, itemPid, index) => {
+  const subParagraphOnChange = (e, index, idx) => {
     let subTextArr = [...paragraphs];
-    const { name, value, id } = e.target;
-    console.log('name', name);
-    console.log('value', value);
-    console.log('e.target,id,subOnchange', id);
-    console.log('id', id);
-    console.log('itemPid', itemPid);
+    const { name, value } = e.target;
+    subTextArr[index].subParagraph[idx][name] = value;
 
-    if (itemPid === subTextArr.pId) {
-      const addSubText = subTextArr.map((item) => {
-        // check id matches
-        console.log('hello', item.subParagraph[0].text);
-        // item.subParagraph[0].text=value
-        item.subParagraph.map((subItem, idx) =>
-          idx ? (subItem.text = value) : subItem
-        );
-
-        return setParagraphs(subTextArr);
-        return item;
-      });
-    }
-    // console.log("addSubText",addSubText);
-    console.log(' subParagraphText[index][name] = value;', subTextArr[index]);
-    // subParagraphText[index][name][0].text = value;
-    // setParagraphs(subParagraphText);
+    // ex: {pId,paragraph, subParagraph}.subParagraph[0][name]
+    setParagraphs(subTextArr);
   };
 
   return (
@@ -193,48 +150,66 @@ const BodyBlock = () => {
               </button>
             </div>
             {/* --------------1st SUB PARA-------------------- */}
-            {/* STOPPED HERE WORKING ON THE INNER LOOP, THE ADD FUNCTION WORKS, NEED TO CHECK ONCHANGE AND DELETE */}
             <div>
-              {item.subParagraph!==null && item.subParagraph.map((subItem, idx) => (
+              {item.subParagraph.map((subItem, idx) => (
                 <div key={idx}>
-                  <label className=' block mb-2 text-xs t sm:text-base '>{`Sub Paragraph "a"`}</label>
+                  <label className=' block mb-2 text-xs t sm:text-base '>{`Sub Paragraph ${
+                    idx === 0 ? 'a' : idx === 1 ? 'b' : 'c'
+                  }`}</label>
                   <textarea
                     name='text'
                     id='text'
                     rows='10'
                     spellCheck='true'
                     type='text'
-                    // showsub={item.pId}
                     value={subItem.text}
-                    onChange={(e) => subParagraphOnChange(e, item.pId, idx)}
+                    onChange={(e) => subParagraphOnChange(e, index, idx)}
                     className=' block h-full text-xs pt-4 from-control input input-bordered input-info w-full sm:text-lg '
-                    placeholder={`Sub paragraph "a"`}
+                    placeholder={`Write your sub paragraph ${
+                      idx === 0 ? 'a' : idx === 1 ? 'b' : 'c'
+                    }`}
                   />
                   {/* Buttons----------------------- */}
                   <div className='btn-group my-3 flex flex-row justify-between'>
                     <button
                       className='btn btn-xs bg-error-content sm:btn sm:bg-error-content'
-                      // disabled={isSubB && isSub === item.pId ? 'disabled' : ''}
+                      // disabled={
+                      //   (idx<=1)&& isSub===true? 'disabled' : ''
+                      // }
+                      // disabled={
+                      //   (subItem.name==='subA'||subItem.name==='subB')&& isSub===false? 'disabled' : ''
+                      // }
+                      // disabled={
+                      //   (idx===0|| idx===1) && idx<2? 'disabled': idx===0: ''
+                      // }
+                      disabled={
+                        item.subParagraph.length - 2 === idx ||
+                        item.subParagraph.length - 3 === idx
+                          ? 'disabled'
+                          : ''
+                      }
                       onClick={() => {
                         removeSubParagraph(subItem, item.pId);
-                        // setIsSubA(false);
+                        setIsSub(!isSub);
                       }}>
                       Delete a sub
                     </button>
-                
                   </div>
                 </div>
               ))}
-                <button
-                      className='btn btn-xs btn-neutral-content sm:btn'
-                      // disabled={item.paragraph.length === 0 ? 'disabled' : ''}
-                      onClick={() => {
-                        addSubP( item.pId);
-                        // setIsSub(item.pId);
-                        // setIsSubA(true);
-                      }}>
-                      Add a sub
-                    </button>
+              <button
+                className='btn btn-xs btn-neutral-content sm:btn'
+                disabled={
+                  item.paragraph.length === 0 || item.subParagraph.length === 3
+                    ? 'disabled'
+                    : ''
+                }
+                onClick={() => {
+                  addSubP(item.pId);
+                  setIsSub(true);
+                }}>
+                Add a sub
+              </button>
             </div>
           </div>
         );
