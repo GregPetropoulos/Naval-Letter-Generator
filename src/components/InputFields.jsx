@@ -1,14 +1,40 @@
-import{Fragment} from 'react'
+import { useState, Fragment } from 'react';
 
 const InputFields = () => {
+  const [inputFields, setInputFields] = useState({
+    filename: '',
+    line1UnitName: '',
+    line2Address: '',
+    line3Address: '',
+    ssic: '',
+    originatorCode: '',
+    date: '',
+    fromBilletUnitName: '',
+    toBilletUnitName: '',
+    subject: ''
+  });
+
+  const {filename,line1UnitName,line2Address,line3Address,ssic,originatorCode,date,fromBilletUnitName,toBilletUnitName,subject}=inputFields
+
+
+console.log(inputFields);
+
+
+const onChange = e => {
+console.log("hit")
+e.preventDefault()
+setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
+}
   return (
     <Fragment>
-
       <label className='sm:text-xl mt-7'> File Name Information:</label>
       <input
         className=' text-black text-xs rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         placeholder='Enter Your Desired Filename:'
         type='text'
+        name='filename'
+        value={filename}
+        onChange={onChange}
       />
       <label className='sm:text-xl mt-7'> Address Information:</label>
       <button className='btn btn-sm mb-2 w-1/2 sm:btn'>RUC/MCC Table</button>
@@ -16,16 +42,25 @@ const InputFields = () => {
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Line 1 (Unit Name):'
         type='text'
+        name='line1UnitName'
+        value={line1UnitName}
+        onChange={onChange}
       />
       <input
         className=' text-black text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
-        placeholder='Line 2 (Unit Name):'
+        placeholder='Line 2 (Address Line 1):'
         type='text'
+        name='line2Address'
+        value={line2Address}
+        onChange={onChange}
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
-        placeholder='Line 3 (Unit Name):'
+        placeholder='Line 3 (Address Line 2):'
         type='text'
+        name='line3Address'
+        value={line3Address}
+        onChange={onChange}
       />
       <label className='sm:text-xl mt-7'> Header Information:</label>
       <button className='btn btn-sm mb-2 w-1/2 sm:btn'>SSIC Manual</button>
@@ -33,36 +68,53 @@ const InputFields = () => {
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Enter your SSIC:'
         type='text'
+        name='ssic'
+        value={ssic}
+        onChange={onChange}
       />
       <input
         className=' text-black text-xs rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         placeholder='Enter Your Originator Code:'
         type='text'
+        name='originatorCode'
+        value={originatorCode}
+        onChange={onChange}
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-        placeholder='Enter The Date (D Mmm YY):'
+        placeholder='Enter The Date (D Mmm YY) ex:(10 Nov 75):'
         type='text'
+        name='date'
+        value={date}
+        onChange={onChange}
       />
-      <label className='sm:text-xl mt-7' > Reply Block:</label>
+      <label className='sm:text-xl mt-7'> Reply Block:</label>
       <input
         className=' text-black text-[10px] rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         placeholder='From (Full Identifier or Billet & Unit Name):'
         type='text'
+        name='fromBilletUnitName'
+        value={fromBilletUnitName}
+        onChange={onChange}
       />
       <input
         className=' text-black text-[10px] rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         placeholder='To (Billet & unit Name or identifier here):'
         type='text'
+        name='toBilletUnitName'
+        value={toBilletUnitName}
+        onChange={onChange}
       />
       <input
         spellCheck='true'
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Enter The Subject(toUpperCase()):'
         type='text'
+        name='subject'
+        value={subject}
+        onChange={onChange}
       />
     </Fragment>
-
   );
 };
 
