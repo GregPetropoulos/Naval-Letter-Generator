@@ -23,7 +23,16 @@ console.log(inputFields);
 const onChange = e => {
 console.log("hit")
 e.preventDefault()
-setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
+const {name, value}=e.target
+
+//*LOGIC HANDLING EACH FIELD VALIDATION/REQUIREMENTS
+if(name==='subject'){
+const upperCaseSubj = value.toUpperCase()
+  setInputFields(prev=> ({...prev,[name]:upperCaseSubj}))
+}else{
+  setInputFields(prev=> ({...prev,[name]:value}))
+
+}
 }
   return (
     <Fragment>
@@ -35,6 +44,8 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='filename'
         value={filename}
         onChange={onChange}
+        required
+        maxLength={85}
       />
       <label className='sm:text-xl mt-7'> Address Information:</label>
       <button className='btn btn-sm mb-2 w-1/2 sm:btn'>RUC/MCC Table</button>
@@ -45,6 +56,7 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='line1UnitName'
         value={line1UnitName}
         onChange={onChange}
+        required
       />
       <input
         className=' text-black text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
@@ -53,6 +65,7 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='line2Address'
         value={line2Address}
         onChange={onChange}
+        required
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
@@ -71,6 +84,7 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='ssic'
         value={ssic}
         onChange={onChange}
+        required
       />
       <input
         className=' text-black text-xs rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -79,6 +93,7 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='originatorCode'
         value={originatorCode}
         onChange={onChange}
+        required
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -87,6 +102,7 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='date'
         value={date}
         onChange={onChange}
+        required
       />
       <label className='sm:text-xl mt-7'> Reply Block:</label>
       <input
@@ -96,6 +112,7 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='fromBilletUnitName'
         value={fromBilletUnitName}
         onChange={onChange}
+        required
       />
       <input
         className=' text-black text-[10px] rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -104,15 +121,17 @@ setInputFields(prev=> ({...prev,[e.target.name]:e.target.value}))
         name='toBilletUnitName'
         value={toBilletUnitName}
         onChange={onChange}
+        required
       />
       <input
         spellCheck='true'
-        className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
-        placeholder='Enter The Subject(toUpperCase()):'
+        className=' text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
+        placeholder='Subject:All Caps'
         type='text'
         name='subject'
         value={subject}
         onChange={onChange}
+        required
       />
     </Fragment>
   );

@@ -12,13 +12,13 @@ const Form = () => {
       <h1 className='font-bold text-center my-3  sm:text-3xl md:text-2xl'>
         Naval Letter Format Generator
       </h1>
-      <div className='flex flex-col gap-3'>
+      <form className=' form flex flex-col gap-3'>
         <InputFields />
         <Radios />
         <BodyBlock />
         <ClosingBlock/>
         <Footer/>
-      </div>
+      </form>
     {/* // </div> */}
     </Fragment>
   );

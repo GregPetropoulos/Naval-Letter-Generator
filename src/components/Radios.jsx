@@ -178,11 +178,11 @@ const Radios = () => {
                 onChange={(e) => handleRefTextInput(e, index)}
                 type='text'
                 className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-                placeholder='Enter The Via (Title, name of activity (Code), location when needed'
+                placeholder='Ref:    (a) COMSUBGRU TWO ltr 7200 Ser N1/123 of 12 Mar 08 '
               />
 
               {/* Add button appears on last input field added */}
-              {addRefInput.length - 1 === index && addRefInput.length < 3 && (
+              {addRefInput.length - 1 === index && addRefInput.length < 52 && (
                 <button
                   type='button'
                   className='btn mr-4 mb-3 btn-sm sm:btn'
@@ -236,11 +236,11 @@ const Radios = () => {
                 onChange={(e) => handleEncTextInput(e, index)}
                 type='text'
                 className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-                placeholder='Enter The Via (Title, name of activity (Code), location when needed'
+                placeholder={`(${index+1}) List of Reserve Officers Selected for Promotion to Colonel`}
               />
 
               {/* Add button appears on last input field added */}
-              {addEncInput.length - 1 === index && addEncInput.length < 3 && (
+              {addEncInput.length - 1 === index && addEncInput.length < 52 && (
                 <button
                   type='button'
                   className='btn mr-4 mb-3 btn-sm sm:btn'
