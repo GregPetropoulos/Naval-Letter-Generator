@@ -37,19 +37,9 @@ const Radios = ({ data, setData }) => {
   // };
 
   // * HANDLING THE ADDITION OF HTML INPUT ELEMENTS AMD STATE UPDATES
-  const addViaInputTag = () => {
-    // setAddViaInput((prev) => [...prev, { via: '' }]);
-    // setData((prev) => ({ ...prev,: }));
-    console.log('hit');
-
+  const addViaInputTag = (id) => {
  
-    setData((prev) => ({...prev, via:[...prev.via,{id:"", title:'checkcheck'}]}))
-   
-
-
-
-console.log('via in adder', via);
-    console.log('addViaInputTag');
+    setData((prev) => ({...prev, via:[...prev.via,{id:id++, title:''}]}))
   };
   // const addRefInputTag = () => {
   //   setAddRefInput((prev) => [...prev, { references: '' }]);
@@ -80,20 +70,10 @@ console.log('via in adder', via);
 
   // * HADLING THE ONCHANGES FOR TEXT INPUTS SEPERATELY
   const handleViaTextInput = (e, index) => {
-    // const textViaInputs = [...addViaInput];
-    // setAddViaInput(textViaInputs);
     const textViaInputs = data;
-
-    const { name, id, value } = e.target;
-    // access the index and name ex: at 0 index the value of via is ''
     // due to destrcuture we have access to name, value
-
+    const { name, id, value } = e.target;
     textViaInputs.via[index].title = value;
-    console.log('value ', value);
-    console.log('index', index);
-    console.log('id', id);
-    console.log('name', name);
-
     setData((prev) => ({ ...prev, ...textViaInputs }));
   };
 
@@ -160,7 +140,7 @@ console.log('via in adder', via);
                   <button
                   type='button'
                   className='btn mr-4 mb-3 btn-sm sm:btn'
-                  onClick={ addViaInputTag}>
+                  onClick={()=> addViaInputTag(viaItem.id)}>
                     Add VIA
                   </button>
                     </div>
