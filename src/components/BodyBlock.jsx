@@ -117,6 +117,7 @@ const BodyBlock = () => {
               spellCheck='true'
               type='text'
               value={item.paragraph}
+              required
               onChange={(e) => bodyBlockOnChange(e, item.pId, index)}
               className=' block h-full py-4 text-xs from-control input input-bordered input-info w-full sm:text-lg '
               placeholder={`Start writing the body paragraph for ID #${item.pId}`}

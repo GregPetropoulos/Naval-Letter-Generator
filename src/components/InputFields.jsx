@@ -1,39 +1,64 @@
 import { useState, Fragment } from 'react';
 
-const InputFields = () => {
-  const [inputFields, setInputFields] = useState({
-    filename: '',
-    line1UnitName: '',
-    line2Address: '',
-    line3Address: '',
-    ssic: '',
-    originatorCode: '',
-    date: '',
-    fromBilletUnitName: '',
-    toBilletUnitName: '',
-    subject: ''
-  });
+const InputFields = ({data,setData}) => {
+  // const [inputFields, setInputFields] = useState({
+  //   filename: '',
+  //   line1UnitName: '',
+  //   line2Address: '',
+  //   line3Address: '',
+  //   ssic: '',
+  //   originatorCode: '',
+  //   date: '',
+  //   fromBilletUnitName: '',
+  //   toBilletUnitName: '',
+  //   subject: ''
+  // });
 
-  const {filename,line1UnitName,line2Address,line3Address,ssic,originatorCode,date,fromBilletUnitName,toBilletUnitName,subject}=inputFields
+  // const {
+  //   filename,
+  //   line1UnitName,
+  //   line2Address,
+  //   line3Address,
+  //   ssic,
+  //   originatorCode,
+  //   date,
+  //   fromBilletUnitName,
+  //   toBilletUnitName,
+  //   subject
+  // } = inputFields;
+  
+
+  const {
+    filename,
+    line1UnitName,
+    line2Address,
+    line3Address,
+    ssic,
+    originatorCode,
+    date,
+    fromBilletUnitName,
+    toBilletUnitName,
+    subject
+  } = data;
+
+  // console.log(inputFields);
+  // console.log("data in inputfields",data);
 
 
-console.log(inputFields);
+  const onChange = (e) => {
+    // console.log('hit');
+    e.preventDefault();
+    const { name, value } = e.target;
 
-
-const onChange = e => {
-console.log("hit")
-e.preventDefault()
-const {name, value}=e.target
-
-//*LOGIC HANDLING EACH FIELD VALIDATION/REQUIREMENTS
-if(name==='subject'){
-const upperCaseSubj = value.toUpperCase()
-  setInputFields(prev=> ({...prev,[name]:upperCaseSubj}))
-}else{
-  setInputFields(prev=> ({...prev,[name]:value}))
-
-}
-}
+    //*LOGIC HANDLING EACH FIELD VALIDATION/REQUIREMENTS
+    if (name === 'subject') {
+      const upperCaseSubj = value.toUpperCase();
+      // setInputFields((prev) => ({ ...prev, [name]: upperCaseSubj }));
+      setData((prev) => ({ ...prev, [name]: upperCaseSubj }));
+    } else {
+      setData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
   return (
     <Fragment>
       <label className='sm:text-xl mt-7'> File Name Information:</label>
@@ -46,6 +71,40 @@ const upperCaseSubj = value.toUpperCase()
         onChange={onChange}
         required
         maxLength={85}
+        spellCheck='true'
+      />
+      <label className='sm:text-xl mt-7'> Header Information:</label>
+      <button className='btn btn-sm mb-2 w-1/2 sm:btn'>SSIC Manual</button>
+      <input
+        className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
+        placeholder='Enter your SSIC:'
+        type='number'
+        name='ssic'
+        value={ssic}
+        onChange={onChange}
+        required
+        max={5}
+
+      />
+      <input
+        className=' text-black text-xs rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
+        placeholder='Enter Your Originator Code:'
+        type='text'
+        name='originatorCode'
+        value={originatorCode}
+        onChange={onChange}
+        maxLength={47}
+        required
+      />
+      <input
+        className='text-black  text-xs rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
+        placeholder='Enter The Date (D Mmm YY) ex:(10 Nov 75):'
+        type='text'
+        name='date'
+        value={date}
+        onChange={onChange}
+        required
+        maxLength={18}
       />
       <label className='sm:text-xl mt-7'> Address Information:</label>
       <button className='btn btn-sm mb-2 w-1/2 sm:btn'>RUC/MCC Table</button>
@@ -57,6 +116,8 @@ const upperCaseSubj = value.toUpperCase()
         value={line1UnitName}
         onChange={onChange}
         required
+        maxLength={85}
+        spellCheck='true'
       />
       <input
         className=' text-black text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
@@ -66,6 +127,8 @@ const upperCaseSubj = value.toUpperCase()
         value={line2Address}
         onChange={onChange}
         required
+        maxLength={47}
+
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
@@ -74,36 +137,10 @@ const upperCaseSubj = value.toUpperCase()
         name='line3Address'
         value={line3Address}
         onChange={onChange}
+        maxLength={47}
+
       />
-      <label className='sm:text-xl mt-7'> Header Information:</label>
-      <button className='btn btn-sm mb-2 w-1/2 sm:btn'>SSIC Manual</button>
-      <input
-        className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
-        placeholder='Enter your SSIC:'
-        type='text'
-        name='ssic'
-        value={ssic}
-        onChange={onChange}
-        required
-      />
-      <input
-        className=' text-black text-xs rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-        placeholder='Enter Your Originator Code:'
-        type='text'
-        name='originatorCode'
-        value={originatorCode}
-        onChange={onChange}
-        required
-      />
-      <input
-        className='text-black  text-xs rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-        placeholder='Enter The Date (D Mmm YY) ex:(10 Nov 75):'
-        type='text'
-        name='date'
-        value={date}
-        onChange={onChange}
-        required
-      />
+
       <label className='sm:text-xl mt-7'> Reply Block:</label>
       <input
         className=' text-black text-[10px] rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -113,6 +150,8 @@ const upperCaseSubj = value.toUpperCase()
         value={fromBilletUnitName}
         onChange={onChange}
         required
+        maxLength={85}
+
       />
       <input
         className=' text-black text-[10px] rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -122,6 +161,8 @@ const upperCaseSubj = value.toUpperCase()
         value={toBilletUnitName}
         onChange={onChange}
         required
+        maxLength={85}
+
       />
       <input
         spellCheck='true'
@@ -132,6 +173,9 @@ const upperCaseSubj = value.toUpperCase()
         value={subject}
         onChange={onChange}
         required
+        maxLength={85}
+
+
       />
     </Fragment>
   );

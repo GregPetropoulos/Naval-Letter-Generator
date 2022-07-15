@@ -5,7 +5,7 @@ import BodyBlock from './BodyBlock';
 import ClosingBlock from './ClosingBlock';
 import Footer from './Footer';
 
-const Form = () => {
+const Form = ({data,setData}) => {
   return (
     <Fragment>
     {/* // <div className='form-control'> */}
@@ -13,8 +13,8 @@ const Form = () => {
         Naval Letter Format Generator
       </h1>
       <form className=' form flex flex-col gap-3'>
-        <InputFields />
-        <Radios />
+        <InputFields data={data} setData={setData}/>
+        <Radios data={data} setData={setData}/>
         <BodyBlock />
         <ClosingBlock/>
         <Footer/>

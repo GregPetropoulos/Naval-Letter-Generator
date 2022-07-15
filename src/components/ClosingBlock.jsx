@@ -2,6 +2,7 @@ import { Fragment, useState } from 'react';
 
 const ClosingBlock = () => {
   const [closeBlock, setCloseBlock] = useState([]);
+  const [sigTitle, setSigTitle] = useState([]);
   const [copyIsChecked, setCopyIsChecked] = useState(false);
   const [addCopyInput, setAddCopyInput] = useState([]);
 
@@ -36,7 +37,7 @@ const ClosingBlock = () => {
     setAddCopyInput(textCopyInputs);
   };
   // Inline onChange for the Closing Block signature
-
+// console.log(sigTitle)
   return (
     <Fragment>
       <label className='sm:text-xl mt-7'>Closing Block</label>
@@ -48,6 +49,19 @@ const ClosingBlock = () => {
         placeholder='Enter The Signature (FI. MI. LNAME):'
         className=' text-black text-[8.5px] rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         type='text'
+        required
+        maxLength={50}
+      />
+  <input
+        name='title'
+        id='title'
+        value={sigTitle.tile}
+        onChange={(e) => setSigTitle(({[e.target.name]: e.target.value}) )}
+        placeholder='Enter The Signatory Title if needed:'
+        className=' text-black text-[8.5px] rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
+        type='text'
+        required
+        maxLength={50}
       />
 
       {/****--------------4TH RADIO BUTTON AND COPY TO FIELDS-----------------****/}
@@ -88,7 +102,7 @@ const ClosingBlock = () => {
               />
 
               {/* Add button appears on last input field added */}
-              {addCopyInput.length - 1 === index && addCopyInput.length < 3 && (
+              {addCopyInput.length - 1 === index && addCopyInput.length < 10 && (
                 <button
                   type='button'
                   className='btn mr-4 mb-3 btn-sm sm:btn'
