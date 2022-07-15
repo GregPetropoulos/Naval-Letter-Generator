@@ -2,12 +2,8 @@ import { Fragment, useState } from 'react';
 
 const Radios = ({ data, setData }) => {
   const [viaIsChecked, setViaIsChecked] = useState(false);
-  // const [refIsChecked, setRefIsChecked] = useState(false);
-  // const [encIsChecked, setEncIsChecked] = useState(false);
-
-  // const [addViaInput, setAddViaInput] = useState([]);
-  // const [addRefInput, setAddRefInput] = useState([]);
-  // const [addEncInput, setAddEncInput] = useState([]);
+  const [refIsChecked, setRefIsChecked] = useState(false);
+  const [encIsChecked, setEncIsChecked] = useState(false);
 
   const { via, enclosures, references } = data;
 
@@ -19,77 +15,105 @@ const Radios = ({ data, setData }) => {
     setViaIsChecked(!viaIsChecked);
     //* ClEARING THE VIA STATE IF NO IS CHECKED
     if (viaIsChecked === true) {
-      setData((prev) =>
-        prev.via.length > 0
-          ? { ...prev, via: [{ id:1, title: '' }] }
-          : prev
-      );
+      setData((prev) => ({ ...prev, via: [] }));
+    } else if (viaIsChecked === false) {
+      setData((prev) => ({ ...prev, via: [{ id: 1, title: '' }] }));
     }
   };
-  // const refOnChange = () => {
-  //   setRefIsChecked(!refIsChecked);
-  //   setAddRefInput([{ references: '' }]);
-  // };
 
-  // const encOnChange = () => {
-  //   setEncIsChecked(!encIsChecked);
-  //   setAddEncInput([{ enclosures: '' }]);
-  // };
+  const refOnChange = (e) => {
+    setRefIsChecked(!refIsChecked);
+    //* ClEARING THE REFERENCES STATE IF NO IS CHECKED
+    if (refIsChecked === true) {
+      setData((prev) => ({ ...prev, references: [] }));
+    } else if (refIsChecked === false) {
+      setData((prev) => ({ ...prev, references: [{ id: 1, title: '' }] }));
+    }
+  };
+
+  const encOnChange = (e) => {
+    setEncIsChecked(!encIsChecked);
+    //* ClEARING THE ENCLOSURES STATE IF NO IS CHECKED
+    if (encIsChecked === true) {
+      setData((prev) => ({ ...prev, enclosures: [] }));
+    } else if (encIsChecked === false) {
+      setData((prev) => ({ ...prev, enclosures: [{ id: 1, title: '' }] }));
+    }
+  };
 
   // * HANDLING THE ADDITION OF HTML INPUT ELEMENTS AMD STATE UPDATES
   const addViaInputTag = (id) => {
- 
-    setData((prev) => ({...prev, via:[...prev.via,{id:id++, title:''}]}))
+    setData((prev) => ({
+      ...prev,
+      via: [...prev.via, { id: id + 1, title: '' }]
+    }));
   };
-  // const addRefInputTag = () => {
-  //   setAddRefInput((prev) => [...prev, { references: '' }]);
-  // };
-  // const addEncInputTag = () => {
-  //   setAddEncInput((prev) => [...prev, { enclosures: '' }]);
-  // };
+
+  const addRefInputTag = (id) => {
+    setData((prev) => ({
+      ...prev,
+      references: [...prev.references, { id: id + 1, title: '' }]
+    }));
+  };
+
+  const addEncInputTag = (id) => {
+    setData((prev) => ({
+      ...prev,
+      enclosures: [...prev.enclosures, { id: id + 1, title: '' }]
+    }));
+  };
+
   // * HANDLING THE REMOVAL OF HTML INPUT ELEMENTS
   // Two ways to remove an item either by clicking remove button or click the button radio "No"
   const removeViaInputTag = (e, index) => {
-    // const inputs = [...addViaInput];
-    // setAddViaInput(arrItemRemoved);
-    const inputs = [...data];
-    const arrItemRemoved = inputs.filter((item, idx) => idx !== index);
-    setData(arrItemRemoved);
+    const inputs = data;
+    const viaItemRemoved = inputs.via.filter((item, idx) => idx !== index);
+    if (viaItemRemoved.length === 0) setViaIsChecked(!viaIsChecked);
+    setData((prev) => ({ ...prev, via: viaItemRemoved }));
   };
 
-  // const removeRefInputTag = (e, index) => {
-  //   const inputs = [...addRefInput];
-  //   const arrItemRemoved = inputs.filter((item, idx) => idx !== index);
-  //   setAddRefInput(arrItemRemoved);
-  // };
-  // const removeEncInputTag = (e, index) => {
-  //   const inputs = [...addEncInput];
-  //   const arrItemRemoved = inputs.filter((item, idx) => idx !== index);
-  //   setAddEncInput(arrItemRemoved);
-  // };
+  const removeRefInputTag = (e, index) => {
+    const inputs = data;
+    const refItemRemoved = inputs.references.filter(
+      (item, idx) => idx !== index
+    );
+    if (refItemRemoved.length === 0) setRefIsChecked(!refIsChecked);
+    setData((prev) => ({ ...prev, references: refItemRemoved }));
+  };
+
+  const removeEncInputTag = (e, index) => {
+    const inputs = data;
+    const encItemRemoved = inputs.enclosures.filter(
+      (item, idx) => idx !== index
+    );
+    if (encItemRemoved.length === 0) setEncIsChecked(!encIsChecked);
+    setData((prev) => ({ ...prev, enclosures: encItemRemoved }));
+  };
 
   // * HADLING THE ONCHANGES FOR TEXT INPUTS SEPERATELY
   const handleViaTextInput = (e, index) => {
     const textViaInputs = data;
     // due to destrcuture we have access to name, value
-    const { name, id, value } = e.target;
+    const { value } = e.target;
     textViaInputs.via[index].title = value;
     setData((prev) => ({ ...prev, ...textViaInputs }));
   };
 
-  // const handleRefTextInput = (e, index) => {
-  //   const textRefInputs = [...addRefInput];
-  //   const { name, value } = e.target;
-  //   textRefInputs[index][name] = value;
-  //   setAddRefInput(textRefInputs);
-  // };
+  const handleRefTextInput = (e, index) => {
+    const textRefInputs = data;
+    // due to destrcuture we have access to name, value
+    const {value } = e.target;
+    textRefInputs.references[index].title = value;
+    setData((prev) => ({ ...prev, ...textRefInputs }));
+  };
 
-  // const handleEncTextInput = (e, index) => {
-  //   const textEncInputs = [...addEncInput];
-  //   const { name, value } = e.target;
-  //   textEncInputs[index][name] = value;
-  //   setAddEncInput(textEncInputs);
-  // };
+  const handleEncTextInput = (e, index) => {
+    const textRefInputs = data;
+    // due to destrcuture we have access to name, value
+    const {value } = e.target;
+    textRefInputs.enclosures[index].title = value;
+    setData((prev) => ({ ...prev, ...textRefInputs }));
+  };
 
   return (
     <Fragment>
@@ -121,54 +145,39 @@ const Radios = ({ data, setData }) => {
       </div>
       {viaIsChecked ? (
         <div>
-          {via.map(
-            (viaItem, index) => (
-              <div key={index}>
-                <input
-                  // name={`${viaItem.name}-${viaItem.id}`}
-                  // id={`${viaItem.name}-${viaItem.id}`}
-                  name={'title'}
-                  // id={'title'}
-                  id={viaItem.id}
-                  value={viaItem.title}
-                  onChange={(e) => handleViaTextInput(e, index)}
-                  type='text'
-                  className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-                  placeholder='Enter The Via (Title, name of activity (Code), location when needed'
-                />
-              
+          {via.map((viaItem, index) => (
+            <div key={index}>
+              <input
+                name={'title'}
+                id={viaItem.id}
+                value={viaItem.title}
+                onChange={(e) => handleViaTextInput(e, index)}
+                type='text'
+                className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
+                placeholder='Enter The Via (Title, name of activity (Code), location when needed'
+              />
+              {via.length - 1 === index && via.length < 10 && (
+                <div>
                   <button
-                  type='button'
-                  className='btn mr-4 mb-3 btn-sm sm:btn'
-                  onClick={()=> addViaInputTag(viaItem.id)}>
+                    type='button'
+                    className='btn mr-4 mb-3 btn-sm sm:btn'
+                    onClick={() => addViaInputTag(viaItem.id)}>
                     Add VIA
                   </button>
-                    </div>
-                      )
-
-            //  {dataCopy.length > 1 && (
-            //    <button
-            //      type='button'
-            //      className='btn btn-sm sm:btn'
-            // //     // onClick={(e) => removeViaInputTag(e, index)}
-            //    onClick={(e) => removeViaInputTag(e)}
-            //      >
-            //    Remove VIA
-            //   </button>
-            // )}
-          )}
-
-            {/* <button
-                  type='button'
-                  className='btn mr-4 mb-3 btn-sm sm:btn'
-                  onClick={addViaInputTag}>
-                    Add VIA
-                  </button> */}
+                  <button
+                    type='button'
+                    className='btn btn-sm sm:btn'
+                    onClick={(e) => removeViaInputTag(e, index)}>
+                    Remove VIA
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       ) : null}
-
       {/****--------------2nd RADIO BUTTON AND FIELDS-----------------****/}
-      {/* <div className='form-control block items-center text-xs my-1 sm:text-lg'>
+      <div className='form-control block items-center text-xs my-1 sm:text-lg'>
         <label className='mb-2 mr-2'> Do you have References</label>
         <input
           type='radio'
@@ -190,43 +199,43 @@ const Radios = ({ data, setData }) => {
           className='radio  mx-2 radio-xs radio-primary checked:bg-red-500 sm:radio-lg'
         />
         No
-      </div> */}
-      {/* {refIsChecked
-        ? addRefInput.map((item, index) => (
+      </div>
+      {refIsChecked ? (
+        <div>
+          {references.map((refItem, index) => (
             <div key={index}>
               <input
-                name='references'
-                id='references'
-                value={item.references}
+                name={'references'}
+                id={refItem.id}
+                value={refItem.title}
                 onChange={(e) => handleRefTextInput(e, index)}
                 type='text'
                 className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
                 placeholder='Ref:    (a) COMSUBGRU TWO ltr 7200 Ser N1/123 of 12 Mar 08 '
-              /> */}
-
-      {/* Add button appears on last input field added */}
-      {/* {addRefInput.length - 1 === index && addRefInput.length < 50 && (
-                <button
-                  type='button'
-                  className='btn mr-4 mb-3 btn-sm sm:btn'
-                  onClick={addRefInputTag}>
-                  Add Ref
-                </button>
-              )}
-
-              {addRefInput.length > 1 && (
-                <button
-                  type='button'
-                  className='btn btn-sm sm:btn'
-                  onClick={(e) => removeRefInputTag(e, index)}>
-                  Remove Ref
-                </button>
+              />
+              {/* Add button appears on last input field added */}
+              {references.length - 1 === index && references.length < 50 && (
+                <div>
+                  <button
+                    type='button'
+                    className='btn mr-4 mb-3 btn-sm sm:btn'
+                    onClick={() => addRefInputTag(refItem.id)}>
+                    Add Ref
+                  </button>
+                  <button
+                    type='button'
+                    className='btn btn-sm sm:btn'
+                    onClick={(e) => removeRefInputTag(e, index)}>
+                    Remove Ref
+                  </button>
+                </div>
               )}
             </div>
-          ))
-        : null} */}
+          ))}
+        </div>
+      ) : null}
       {/****--------------3nd RADIO BUTTON AND FIELDS-----------------****/}
-      {/* <div className='form-control block items-center text-xs my-1 sm:text-lg'>
+      <div className='form-control block items-center text-xs my-1 sm:text-lg'>
         <label className='mb-2 mr-2'> Do you have Enclosures</label>
         <input
           type='radio'
@@ -248,41 +257,43 @@ const Radios = ({ data, setData }) => {
           className='radio  mx-2 radio-xs radio-primary checked:bg-red-500 sm:radio-lg'
         />
         No
-      </div> */}
-      {/* {encIsChecked
-        ? addEncInput.map((item, index) => (
+      </div>
+      {encIsChecked ? (
+        <div>
+          {enclosures.map((encItem, index) => (
             <div key={index}>
               <input
-                name='enclosures'
-                id='enclosures'
-                value={item.enclosures}
+                name={'enclosures'}
+                id={encItem.id}
+                value={encItem.title}
                 onChange={(e) => handleEncTextInput(e, index)}
                 type='text'
                 className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
-                placeholder={`(${index+1}) List of Reserve Officers Selected for Promotion to Colonel`}
-              /> */}
+                placeholder={`(${
+                  index + 1
+                }) List of Reserve Officers Selected for Promotion to Colonel`}
+              />
 
-      {/* Add button appears on last input field added */}
-      {/* {addEncInput.length - 1 === index && addEncInput.length < 50 && (
-                <button
-                  type='button'
-                  className='btn mr-4 mb-3 btn-sm sm:btn'
-                  onClick={addEncInputTag}>
-                  Add Encl
-                </button>
-              )}
-
-              {addEncInput.length > 1 && (
-                <button
-                  type='button'
-                  className='btn btn-sm sm:btn'
-                  onClick={(e) => removeEncInputTag(e, index)}>
-                  Remove Encl
-                </button>
+              {enclosures.length - 1 === index && enclosures.length < 50 && (
+                <div>
+                  <button
+                    type='button'
+                    className='btn mr-4 mb-3 btn-sm sm:btn'
+                    onClick={() => addEncInputTag(encItem.id)}>
+                    Add Encl
+                  </button>
+                  <button
+                    type='button'
+                    className='btn btn-sm sm:btn'
+                    onClick={(e) => removeEncInputTag(e, index)}>
+                    Remove Encl
+                  </button>
+                </div>
               )}
             </div>
-          ))
-        : null} */}
+          ))}
+        </div>
+      ) : null}
     </Fragment>
   );
 };

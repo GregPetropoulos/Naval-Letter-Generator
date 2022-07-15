@@ -83,7 +83,7 @@ const InputFields = ({data,setData}) => {
         value={ssic}
         onChange={onChange}
         required
-        max={5}
+        // max={5}
 
       />
       <input

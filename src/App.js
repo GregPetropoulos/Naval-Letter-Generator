@@ -20,9 +20,9 @@ const [data, setData]=useState({
   fromBilletUnitName: '',
   toBilletUnitName: '',
   subject: '',
-  via:[{id:1, title:'some value'}],
-  enclosures:'',
-  references:''
+  via:[],
+  enclosures:[],
+  references:[],
 })
 console.log("data in appjs", data)
   return (
