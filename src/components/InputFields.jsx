@@ -69,7 +69,7 @@ const InputFields = ({data,setData}) => {
         name='filename'
         value={filename}
         onChange={onChange}
-        required
+        // required
         maxLength={85}
         spellCheck='true'
       />
@@ -82,7 +82,7 @@ const InputFields = ({data,setData}) => {
         name='ssic'
         value={ssic}
         onChange={onChange}
-        required
+        // required
         // max={5}
 
       />
@@ -94,7 +94,7 @@ const InputFields = ({data,setData}) => {
         value={originatorCode}
         onChange={onChange}
         maxLength={47}
-        required
+        // required
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -103,7 +103,7 @@ const InputFields = ({data,setData}) => {
         name='date'
         value={date}
         onChange={onChange}
-        required
+        // required
         maxLength={18}
       />
       <label className='sm:text-xl mt-7'> Address Information:</label>
@@ -115,7 +115,7 @@ const InputFields = ({data,setData}) => {
         name='line1UnitName'
         value={line1UnitName}
         onChange={onChange}
-        required
+        // required
         maxLength={85}
         spellCheck='true'
       />
@@ -126,7 +126,7 @@ const InputFields = ({data,setData}) => {
         name='line2Address'
         value={line2Address}
         onChange={onChange}
-        required
+        // required
         maxLength={47}
 
       />
@@ -149,7 +149,7 @@ const InputFields = ({data,setData}) => {
         name='fromBilletUnitName'
         value={fromBilletUnitName}
         onChange={onChange}
-        required
+        // required
         maxLength={85}
 
       />
@@ -160,7 +160,7 @@ const InputFields = ({data,setData}) => {
         name='toBilletUnitName'
         value={toBilletUnitName}
         onChange={onChange}
-        required
+        // required
         maxLength={85}
 
       />
@@ -172,7 +172,7 @@ const InputFields = ({data,setData}) => {
         name='subject'
         value={subject}
         onChange={onChange}
-        required
+        // required
         maxLength={85}
 
 

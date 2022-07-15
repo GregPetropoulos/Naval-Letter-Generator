@@ -1,33 +1,28 @@
 import { Fragment, useState } from 'react';
 // This will need to be part of an editor with live preview
 
-const BodyBlock = () => {
+const BodyBlock = ({data, setData}) => {
 
-  const [paragraphs, setParagraphs] = useState([
-    {
-      pId: 1,
-      paragraph: '',
-      subParagraph: []
-    }
-  ]);
+ const {paragraphs}=data;
 
 
   // *HANDLE ADDING A PARAGRAPH
-  const addParagraph = () => {
-    let arr = [...paragraphs];
-    const idIncrement = arr.map((item) => item.pId + 1).pop();
+  const addParagraph = (id) => {
+    
+    let arr = data.paragraphs;
+
     if (arr.length > 0 && arr.length < 10) {
-      setParagraphs((prev) => [
+      setData((prev) => ({
         ...prev,
-        { pId: idIncrement, paragraph: '', subParagraph: [] }
-      ]);
+        paragraphs: [...prev.paragraphs,{pId: id+1, paragraph: '', subParagraph: [] }
+        ]}));
     }
   };
 
 
   // *HANDLE ADDING A SUBPARAGRAPH
   const addSubP = (id) => {
-    let arr = [...paragraphs];
+    let arr = data.paragraphs
     const addSubPArr = arr.map((item) => {
       const { pId, subParagraph } = item;
       return pId === id && subParagraph.length === 0
@@ -49,26 +44,25 @@ const BodyBlock = () => {
         : item;
     });
 
-    setParagraphs(addSubPArr);
+    setData(prev=> ({...prev,paragraphs:addSubPArr}));
   };
 
   // *HANDLE REMOVING PARAGRAPH
   const removeParagraph = (id) => {
-    let paragraphArr = [...paragraphs];
-    const newList = paragraphArr.filter((item) => item.pId !== id);
+    let paragraphArr = data.paragraphs
+    const paragraphItemRemoved = paragraphArr.filter((item) => item.pId !== id);
     if (paragraphArr.length > 0 && paragraphArr.length <= 10) {
-      setParagraphs(newList);
+      setData(prev=> ({...prev,paragraphs:paragraphItemRemoved}));
     }
     if (paragraphArr.length === 1) {
-      setParagraphs([{ pId: 1, paragraph: '', subParagraph: [] }]);
-    }
+      setData(prev=> ({...prev,paragraphs:[{ pId: 1, paragraph: '', subParagraph: [] }]}));
   };
-
+  }
   // *HANDLE REMOVING SUBPARAGRAPH BY ID AND MAPPED VALUES FROM STATE TO UI
   const removeSubParagraph = (subItem, id) => {
-    let paragraphArr = [...paragraphs];
+    let paragraphArr = data.paragraphs;
 
-    const newList = () => {
+    const subParagraphItemRemoved = () => {
       return paragraphArr.map((item) => {
         const { pId, paragraph, subParagraph } = item;
 
@@ -81,67 +75,71 @@ const BodyBlock = () => {
           : item;
       });
     };
-    setParagraphs(newList);
+    setData(prev=> ({...prev,paragraphs:subParagraphItemRemoved}));
+    // !STOPPEED JUST NEED SUB PARAGRPAH TO GET REMOVED
   };
 
   // *HANDLE ONCHANGE TEXT INPUTS
   const bodyBlockOnChange = (e, itemPid, index) => {
-    let paragraphText = [...paragraphs];
+    let paragraphText = data.paragraphs
     const { name, value } = e.target;
     // ex:[{name:'a'},{name:'b'},{name:'c'},{name:'d'}][2][name]='c'
     paragraphText[index][name] = value;
 
-    setParagraphs(paragraphText);
+    setData(prev=> ({...prev, paragraphs:paragraphText}));
   };
 
   const subParagraphOnChange = (e, index, idx) => {
-    let subTextArr = [...paragraphs];
+    let subTextArr = data.paragraphs
     const { name, value } = e.target;
     subTextArr[index].subParagraph[idx][name] = value;
 
     // ex: {pId,paragraph, subParagraph}.subParagraph[0][name]
-    setParagraphs(subTextArr);
+    setData(prev=> ({...prev,paragraphs:subTextArr}));
   };
 
   return (
     <Fragment>
       <label className='sm:text-xl mt-7'> Body Block</label>
-      {paragraphs.map((item, index) => {
+      {paragraphs.map((itemParagraph, index) => {
         return (
-          <div key={item.pId}>
-            <label className=' block mb-2 text-xs t sm:text-base '>{`Paragraph ID #${item.pId}`}</label>
+          <div key={itemParagraph.pId}>
+            <label className=' block mb-2 text-xs t sm:text-base '>{`Paragraph ID #${itemParagraph.pId}`}</label>
             <textarea
               name='paragraph'
               id='paragraph'
               rows='20'
               spellCheck='true'
               type='text'
-              value={item.paragraph}
-              required
-              onChange={(e) => bodyBlockOnChange(e, item.pId, index)}
+              value={itemParagraph.paragraph}
+              // required
+              onChange={(e) => bodyBlockOnChange(e, itemParagraph.pId, index)}
               className=' block h-full py-4 text-xs from-control input input-bordered input-info w-full sm:text-lg '
-              placeholder={`Start writing the body paragraph for ID #${item.pId}`}
+              placeholder={`Start writing the body paragraph for ID #${itemParagraph.pId}`}
             />
             {/*--------------ADD AND DELETE BUTTON FOR PARAGRAPH-------------*/}
             <div
               className='btn-group my-3 flex flex-row justify-between'
-              key={item.pId}>
+              // key={itemParagraph.pId}
+              >
               <button
+              type='button'
                 className='btn btn-xs my-2 btn-neutral-content sm:btn'
-                onClick={addParagraph}>
+                onClick={()=> addParagraph(itemParagraph.pId)}>
                 Add Para.
               </button>
               <button
+              type='button'
                 className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
                 onClick={() => {
-                  removeParagraph(item.pId);
+                  removeParagraph(itemParagraph.pId);
                 }}>
                 Delete Para.
               </button>
             </div>
             {/* --------------1st SUB PARA-------------------- */}
             <div>
-              {item.subParagraph.map((subItem, idx) => (
+              {itemParagraph.subParagraph.map((subItem, idx) => (
                 <div key={idx}>
                   <label className=' block mb-2 text-xs t sm:text-base '>{`Sub Paragraph ${
                     idx === 0 ? 'a' : idx === 1 ? 'b' : 'c'
@@ -162,15 +160,17 @@ const BodyBlock = () => {
                   {/* Sub Paragraph Buttons----------------------- */}
                   <div className='btn-group my-3 flex flex-row justify-between'>
                     <button
+              type='button'
+
                       className='btn btn-xs bg-error-content sm:btn sm:bg-error-content'
                       disabled={
-                        item.subParagraph.length - 2 === idx ||
-                        item.subParagraph.length - 3 === idx
+                        itemParagraph.subParagraph.length - 2 === idx ||
+                        itemParagraph.subParagraph.length - 3 === idx
                           ? 'disabled'
                           : ''
                       }
                       onClick={() => {
-                        removeSubParagraph(subItem, item.pId);
+                        removeSubParagraph(subItem, itemParagraph.pId);
                       }}>
                       Delete sub
                     </button>
@@ -178,20 +178,21 @@ const BodyBlock = () => {
                 </div>
               ))}
               <button
+              type='button'
                 className='btn btn-xs btn-neutral-content sm:btn'
                 disabled={
-                  item.paragraph.length === 0 || item.subParagraph.length === 3
+                  itemParagraph.paragraph.length === 0 || itemParagraph.subParagraph.length === 3
                     ? 'disabled'
                     : ''
                 }
                 onClick={() => {
-                  addSubP(item.pId);
+                  addSubP(itemParagraph.pId);
                 }}>
                 Add sub
               </button>
             </div>
           </div>
-        );
+         );
       })}
     </Fragment>
   );
