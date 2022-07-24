@@ -1,62 +1,76 @@
 import { Fragment, useState } from 'react';
 
-const ClosingBlock = () => {
-  const [closeBlock, setCloseBlock] = useState([]);
-  const [sigTitle, setSigTitle] = useState([]);
+const ClosingBlock = ({ data, setData }) => {
   const [copyIsChecked, setCopyIsChecked] = useState(false);
-  const [addCopyInput, setAddCopyInput] = useState([]);
-
+  // const [addCopyInput, setAddCopyInput] = useState([]);
+  const dataCopyTo = data.copyTo;
   // If the Copy to radio button is checked Yes, show the first input field and add button
   // If an additional VIA field is added show the remove button
   // * HANDLING THE RADIO CLICK AND SETTING THE INTIAL STATE
   const copyOnChange = () => {
     setCopyIsChecked(!copyIsChecked);
-    setAddCopyInput([{ copyTo: '' }]);
+    //* ClEARING THE COPYTO STATE IF NO IS CHECKED
+    //* Boolean in the function does not see the newest update true/false due to closure scope
+    if (copyIsChecked === true) {
+      setData((prev) => ({ ...prev, copyTo: [] }));
+    } else if (copyIsChecked === false) {
+      setData((prev) => ({ ...prev, copyTo: [{ cId: 1, copy: '' }] }));
+    }
   };
 
   // * HANDLING THE ADDITION OF HTML INPUT ELEMENTS
-  const addCopyInputTag = () => {
-    setAddCopyInput((prev) => [...prev, { copyTo: '' }]);
+  const addCopyInputTag = (id) => {
+    // setData((prev) => ({...prev, copyTo: [''] }));
+    setData((prev) => ({
+      ...prev,
+      copyTo: [...prev.copyTo, { cId: id++, copy: '' }]
+    }));
   };
 
   // * HANDLING THE REMOVAL OF HTML INPUT ELEMENTS
   // Two ways to remove an item either by clicking remove button or click the button radio "No"
-  const removeCopyInputTag = (e, index) => {
-    const inputs = [...addCopyInput];
-    const arrItemRemoved = inputs.filter((item, idx) => idx !== index);
-    setAddCopyInput(arrItemRemoved);
+  const removeCopyInputTag = (cId) => {
+    const dataCopyToItemRemoved = dataCopyTo.filter(
+      (item, idx) => item.cId !== cId
+    );
+    setData((prev) => ({ ...prev, copyTo: dataCopyToItemRemoved }));
   };
 
   // * HADLING THE ONCHANGES FOR TEXT INPUTS
   const handleCopyTextInput = (e, index) => {
-    const textCopyInputs = [...addCopyInput];
+    // const textCopyInputs = [...addCopyInput];
+    const textCopyInputs = dataCopyTo;
+
     console.log('textcopy inputs', textCopyInputs);
     console.log('index', index);
     const { name, value } = e.target;
     textCopyInputs[index][name] = value;
-    setAddCopyInput(textCopyInputs);
+    console.log("textCopyInputs",textCopyInputs);
+    setData(prev=> ({...prev, copyTo:textCopyInputs}));
   };
   // Inline onChange for the Closing Block signature
-// console.log(sigTitle)
   return (
     <Fragment>
       <label className='sm:text-xl mt-7'>Closing Block</label>
       <input
-        name='closeText'
-        id='closeText'
-        value={closeBlock.closeText}
-        onChange={(e) => setCloseBlock({ [e.target.name]: e.target.value })}
+        id='signature'
+        value={data.signature}
+        onChange={(e) =>
+          setData((prev) => ({ ...prev, signature: e.target.value }))
+        }
         placeholder='Enter The Signature (FI. MI. LNAME):'
         className=' text-black text-[8.5px] rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         type='text'
         // required
         maxLength={50}
       />
-  <input
+      <input
         name='title'
         id='title'
-        value={sigTitle.tile}
-        onChange={(e) => setSigTitle(({[e.target.name]: e.target.value}) )}
+        value={data.sigTitle}
+        onChange={(e) =>
+          setData((prev) => ({ ...prev, sigTitle: e.target.value }))
+        }
         placeholder='Enter The Signatory Title if needed:'
         className=' text-black text-[8.5px] rounded-md py-2 pl-1 pr-0 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
         type='text'
@@ -89,12 +103,12 @@ const ClosingBlock = () => {
         No
       </div>
       {copyIsChecked
-        ? addCopyInput.map((item, index) => (
+        ? dataCopyTo.map((item, index) => (
             <div key={index}>
               <input
-                name='copyTo'
-                id='copyTo'
-                value={item.copyTo}
+                name='copy'
+                id={item.cId}
+                value={item.copy}
                 onChange={(e) => handleCopyTextInput(e, index)}
                 type='text'
                 className='block w-full text-black text-[8px] my-3 rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -102,20 +116,20 @@ const ClosingBlock = () => {
               />
 
               {/* Add button appears on last input field added */}
-              {addCopyInput.length - 1 === index && addCopyInput.length < 10 && (
+              {dataCopyTo.length - 1 === index && dataCopyTo.length < 10 && (
                 <button
                   type='button'
                   className='btn mr-4 mb-3 btn-sm sm:btn'
-                  onClick={addCopyInputTag}>
+                  onClick={() => addCopyInputTag(item.cId)}>
                   Add Copy To
                 </button>
               )}
 
-              {addCopyInput.length > 1 && (
+              {dataCopyTo.length > 1 && (
                 <button
                   type='button'
                   className='btn btn-sm sm:btn'
-                  onClick={(e) => removeCopyInputTag(e, index)}>
+                  onClick={() => removeCopyInputTag(item.cId)}>
                   Remove Copy
                 </button>
               )}
@@ -123,7 +137,9 @@ const ClosingBlock = () => {
           ))
         : null}
 
-      <button type='submit' className='block btn btn-sm my-3 btn-info sm:btn-lg sm:flex sm:w-1/2 '>
+      <button
+        type='submit'
+        className='block btn btn-sm my-3 btn-info sm:btn-lg sm:flex sm:w-1/2 '>
         Generate Naval Letter
       </button>
     </Fragment>

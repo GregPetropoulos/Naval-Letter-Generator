@@ -9,20 +9,23 @@ import Footer from './components/Footer';
 
 function App() {
   const [data, setData] = useState({
+    copyTo:[{cId:1,copy:''}],
+    date: '',
+    enclosures: [],
     filename: '',
+    fromBilletUnitName: '',
     line1UnitName: '',
     line2Address: '',
     line3Address: '',
-    ssic: '',
     originatorCode: '',
-    date: '',
-    fromBilletUnitName: '',
-    toBilletUnitName: '',
-    subject: '',
-    via: [],
-    enclosures: [],
+    paragraphs: [{ pId: 1, paragraph: '', subParagraph: [] }],
     references: [],
-    paragraphs: [{ pId: 1, paragraph: '', subParagraph: [] }]
+    sigTitle:'',
+    signature:'',
+    ssic: '',
+    subject: '',
+    toBilletUnitName: '',
+    via: [],
   });
   console.log('data in appjs', data);
   return (
