@@ -60,31 +60,22 @@ const BodyBlock = ({ data, setData }) => {
       }));
     }
   };
+
   // *HANDLE REMOVING SUBPARAGRAPH BY ID AND MAPPED VALUES FROM STATE TO UI
-  const removeSubParagraph = (subName) => {
+  const removeSubParagraph = (idx, paragraphId) => {
     let paragraphArr = data.paragraphs;
 
-    // const subParagraphItemRemoved = () => {
-    //   return paragraphArr.map((item) => {
-    //     const { pId, paragraph, subParagraph } = item;
-
-    //     return pId === id && subParagraph.length === 1
-    //       ? { pId, paragraph, subParagraph: [] }
-    //       : pId === id && subParagraph.length === 2
-    //       ? { pId, paragraph, subParagraph: [subParagraph[0]] }
-    //       : pId === id && subParagraph.length === 3
-    //       ? { pId, paragraph, subParagraph: [subParagraph[0], subParagraph[1]] }
-    //       : item;
-    //   });
-    // };
-    // Must map twice for nested subparapgraph
-    const removeSubParagraph = paragraphArr.map((paraItem) =>
-      paraItem.subParagraph.filter((subPara) => subPara.name === subName)
-    );
-    console.log('REMOVESUBPARAGRAPH', removeSubParagraph);
-    // setData(prev=> ({...prev,paragraphs.subParagraphs,subParagraphs: subParagraphItemRemoved}));
-    // !STOPPEED JUST NEED SUB PARAGRPAH TO GET REMOVED
-// !LOG THIS TO CHECK THE FILTER
+    // Must map, check the correct paragraph and filter for nested subparapgraph
+    const subParagraphItemRemoved = paragraphArr.map((paraItem) => {
+      if (paraItem.pId === paragraphId) {
+        const subPfilteredArr = paraItem.subParagraph.filter(
+          (subPara, sidx) => sidx !== idx
+        );
+        return { ...paraItem, subParagraph: subPfilteredArr };
+      }
+      return paraItem;
+    });
+    setData((prev) => ({ ...prev, paragraphs: subParagraphItemRemoved }));
   };
 
   // *HANDLE ONCHANGE TEXT INPUTS
@@ -130,8 +121,8 @@ const BodyBlock = ({ data, setData }) => {
           {/* SUBPARAGRAPHS*/}
           {itemParagraph.subParagraph.map((subItem, idx) => (
             <div key={idx}>
-              <label className=' block mb-2 text-xs t sm:text-base '>{`Sub Paragraph ${
-                idx === 0 ? 'a' : idx === 1 ? 'b' : 'c'
+              <label className=' block my-2 text-xs t sm:text-base '>{`Sub Paragraph ${
+                idx === 0 ? '(a)' : idx === 1 ? '(b)' : '(c)'
               }`}</label>
               <textarea
                 name='text'
@@ -146,10 +137,48 @@ const BodyBlock = ({ data, setData }) => {
                   idx === 0 ? 'a' : idx === 1 ? 'b' : 'c'
                 }`}
               />
+              {itemParagraph.subParagraph.length - 1 === idx && (
+                <div className='btn-group my-2 justify-center'>
+                  <button
+                    type='button'
+                    className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
+                    disabled={
+                      itemParagraph.paragraph.length === 0 ? 'disabled' : ''
+                    }
+                    onClick={() => {
+                      removeSubParagraph(idx, itemParagraph.pId);
+                    }}>
+                    Delete sub
+                  </button>
+                </div>
+              )}
             </div>
           ))}
 
-          <div className='btn-group'>
+          <div className='flex flex-col my-2 justify-evenly sm:flex-row-reverse sm:justify-evenly'>
+            <button
+              type='button'
+              className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
+              disabled={itemParagraph.paragraph.length === 0 ? 'disabled' : ''}
+              onClick={() => {
+                removeParagraph(itemParagraph.pId);
+              }}>
+              Delete Para
+            </button>
+            <button
+              type='button'
+              className='btn btn-xs my-2 btn-neutral-content sm:btn'
+              disabled={
+                itemParagraph.paragraph.length === 0 ||
+                itemParagraph.subParagraph.length === 3
+                  ? 'disabled'
+                  : ''
+              }
+              onClick={() => {
+                addSubP(itemParagraph.pId);
+              }}>
+              Add sub
+            </button>
             <button
               type='button'
               className='btn btn-xs my-2 btn-neutral-content sm:btn'
@@ -162,42 +191,7 @@ const BodyBlock = ({ data, setData }) => {
               }>
               Add Para
             </button>
-            <button
-              type='button'
-              className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
-              disabled={itemParagraph.paragraph.length === 0 ? 'disabled' : ''}
-              onClick={() => {
-                removeParagraph(itemParagraph.pId);
-              }}>
-              Delete Para
-            </button>
           </div>
-
-          <button
-            type='button'
-            className='btn btn-xs btn-neutral-content sm:btn'
-            disabled={
-              itemParagraph.paragraph.length === 0 ||
-              itemParagraph.subParagraph.length === 3
-                ? 'disabled'
-                : ''
-            }
-            onClick={() => {
-              addSubP(itemParagraph.pId);
-            }}>
-            Add sub
-          </button>
-          <button
-            type='button'
-            className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
-            disabled={itemParagraph.paragraph.length === 0 ? 'disabled' : ''}
-            //!LOST ACCESS TO THE SUBITEM PARAMTER FOR THE ONCLICK DUE TO LOCATION OF BUTTON AND 2ND MAP OF SUBPARAGRAPHS
-            onClick={() => {
-              // removeSubParagraph(subItem, itemParagraph.pId);
-              removeSubParagraph(itemParagraph.paragraphs.name);
-            }}>
-            Delete sub
-          </button>
         </div>
       ))}
     </Fragment>
