@@ -1,34 +1,29 @@
-import Radios from './Radios';
+
+import { Packer,Document,Paragraph, TextRun} from 'docx';
+import { saveAs } from 'file-saver';
+import { StandardLetterDocument } from './StandardLetterDocument';
 import InputFields from './InputFields';
+import Radios from './Radios';
 import BodyBlock from './BodyBlock';
 import ClosingBlock from './ClosingBlock';
-import { saveAs } from 'file-saver';
-import { Packer } from 'docx';
-
 const Form = ({ initialState, data, setData }) => {
 
-// const generate=()=>{
-//   const doc = create([
-//     // experiences,
-//     // education,
-//     // skills,
-//     // achievements
-//     'hello'
-//   ]);
-
-//   Packer.toBlob(doc).then(blob => {
-//     console.log(blob);
-//     saveAs(blob, "example.docx");
-//     console.log("Document created successfully");
-//   });
-// }
+const generate=()=>{
+  const doc =  new Document(StandardLetterDocument(data))
+  
+  Packer.toBlob(doc).then(blob => {
+    console.log(blob);
+    saveAs(blob, "StandardNavalLetter.docx");
+    console.log("Document created successfully");
+  });
+}
 
 
   const onSubmit = (e) => {
     e.preventDefault();
     // TODO SUBMIT/GENERATE A DOCX FOR DOWNLOAD
     console.log('onSubmit');
-    // generate()
+    generate()
   };
 
   return (
