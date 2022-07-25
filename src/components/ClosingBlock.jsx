@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 
-const ClosingBlock = ({ initialState, data, setData }) => {
+const ClosingBlock = ({ data, setData }) => {
   const [copyIsChecked, setCopyIsChecked] = useState(false);
   const dataCopyTo = data.copyTo;
   // If the Copy to radio button is checked Yes, show the first input field and add button
@@ -129,18 +129,6 @@ const ClosingBlock = ({ initialState, data, setData }) => {
             </div>
           ))
         : null}
-
-      <button
-        type='submit'
-        className='block btn btn-xs my-3 btn-info sm:btn sm:flex sm:w-1/2 '>
-        Generate Naval Letter
-      </button>
-      <button
-        type='reset'
-        onClick={()=> setData(initialState)}
-        className='block btn btn-xs my-3 btn-info sm:btn sm:flex sm:w-1/2 '>
-        Reset
-      </button>
     </Fragment>
   );
 };

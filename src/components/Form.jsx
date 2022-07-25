@@ -1,14 +1,34 @@
-
 import Radios from './Radios';
 import InputFields from './InputFields';
 import BodyBlock from './BodyBlock';
 import ClosingBlock from './ClosingBlock';
+import { saveAs } from 'file-saver';
+import { Packer } from 'docx';
 
 const Form = ({ initialState, data, setData }) => {
+
+// const generate=()=>{
+//   const doc = create([
+//     // experiences,
+//     // education,
+//     // skills,
+//     // achievements
+//     'hello'
+//   ]);
+
+//   Packer.toBlob(doc).then(blob => {
+//     console.log(blob);
+//     saveAs(blob, "example.docx");
+//     console.log("Document created successfully");
+//   });
+// }
+
+
   const onSubmit = (e) => {
     e.preventDefault();
-    // TODO SUBMIT A DOCX FOR DOWNLOAD
-    alert('This from was submitted');
+    // TODO SUBMIT/GENERATE A DOCX FOR DOWNLOAD
+    console.log('onSubmit');
+    // generate()
   };
 
   return (
@@ -21,7 +41,18 @@ const Form = ({ initialState, data, setData }) => {
         <InputFields data={data} setData={setData} />
         <Radios data={data} setData={setData} />
         <BodyBlock data={data} setData={setData} />
-        <ClosingBlock initialState={initialState} data={data} setData={setData} />
+        <ClosingBlock data={data} setData={setData} />
+        <button
+          type='submit'
+          className='block btn btn-xs my-3 btn-info sm:btn sm:flex sm:w-1/2 '>
+          Generate Naval Letter
+        </button>
+        <button
+          type='reset'
+          onClick={() => setData(initialState)}
+          className='block btn btn-xs my-3 btn-info sm:btn sm:flex sm:w-1/2 '>
+          Reset
+        </button>
       </form>
     </main>
     // </div>

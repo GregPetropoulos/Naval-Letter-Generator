@@ -32,8 +32,15 @@ outside the DoD.
 - Initially built out each parent component with handling it's own state
 
 - After confirming all of the parent components are handling state correctly, I will move all of the state to the App.js top level.
-- The form has all controlled component
+- The all form values are controlled components
 - Permitting all the state can be handled at the top level in App.js and prop drilling does not present an opportunity for the Context API or Redux.
+
+## Dependencies
+- react-router-dom
+- TailwwindUI
+- DaisyUi
+- file-saver
+- Docx
 
 ## Features
 
@@ -48,7 +55,7 @@ outside the DoD.
 
 ## Icebox Goals
 
-- Drop down menu for all variations of letter types
+- Letter Types drop down menu for four variations of letter types
 
 ## Input Fields
 - **<span style="color:green">File Name</span>**
