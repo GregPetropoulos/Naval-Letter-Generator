@@ -1,33 +1,6 @@
 import { useState, Fragment } from 'react';
-
-const InputFields = ({data,setData}) => {
-  // const [inputFields, setInputFields] = useState({
-  //   filename: '',
-  //   line1UnitName: '',
-  //   line2Address: '',
-  //   line3Address: '',
-  //   ssic: '',
-  //   originatorCode: '',
-  //   date: '',
-  //   fromBilletUnitName: '',
-  //   toBilletUnitName: '',
-  //   subject: ''
-  // });
-
-  // const {
-  //   filename,
-  //   line1UnitName,
-  //   line2Address,
-  //   line3Address,
-  //   ssic,
-  //   originatorCode,
-  //   date,
-  //   fromBilletUnitName,
-  //   toBilletUnitName,
-  //   subject
-  // } = inputFields;
-  
-
+import secNav from '../assets/NavalLetter-5216.5.pdf';
+const InputFields = ({ data, setData }) => {
   const {
     filename,
     line1UnitName,
@@ -40,10 +13,6 @@ const InputFields = ({data,setData}) => {
     toBilletUnitName,
     subject
   } = data;
-
-  // console.log(inputFields);
-  // console.log("data in inputfields",data);
-
 
   const onChange = (e) => {
     // console.log('hit');
@@ -74,7 +43,14 @@ const InputFields = ({data,setData}) => {
         spellCheck='true'
       />
       <label className='sm:text-xl mt-7'> Header Information:</label>
-      <button className='btn btn-sm mb-2 w-1/2 sm:btn'>SSIC Manual</button>
+      <a
+        href={secNav}
+        className='link link-accent text-xs '
+        target='_blank'
+        rel='noreferrer'>
+        SSIC Manual Download
+      </a>
+
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Enter your SSIC:'
@@ -84,7 +60,6 @@ const InputFields = ({data,setData}) => {
         onChange={onChange}
         // required
         // max={5}
-
       />
       <input
         className=' text-black text-xs rounded-md py-2 pl-1 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -107,7 +82,14 @@ const InputFields = ({data,setData}) => {
         maxLength={18}
       />
       <label className='sm:text-xl mt-7'> Address Information:</label>
-      <button className='btn btn-sm mb-2 w-1/2 sm:btn'>RUC/MCC Table</button>
+      {/* Need to get access to this RUC/MCC document to link to */}
+      <a
+        href={'somethinghere'}
+        className='link link-accent text-xs '
+        target='_blank'
+        rel='noreferrer'>
+        RUC/MCC Table Download
+      </a>
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
         placeholder='Line 1 (Unit Name):'
@@ -128,7 +110,6 @@ const InputFields = ({data,setData}) => {
         onChange={onChange}
         // required
         maxLength={47}
-
       />
       <input
         className='text-black  text-xs rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base'
@@ -138,7 +119,6 @@ const InputFields = ({data,setData}) => {
         value={line3Address}
         onChange={onChange}
         maxLength={47}
-
       />
 
       <label className='sm:text-xl mt-7'> Reply Block:</label>
@@ -151,7 +131,6 @@ const InputFields = ({data,setData}) => {
         onChange={onChange}
         // required
         maxLength={85}
-
       />
       <input
         className=' text-black text-[10px] rounded-md py-2 pl-1 pr-1 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-base sm:pl-9 sm:pr-3'
@@ -162,7 +141,6 @@ const InputFields = ({data,setData}) => {
         onChange={onChange}
         // required
         maxLength={85}
-
       />
       <input
         spellCheck='true'
@@ -174,8 +152,6 @@ const InputFields = ({data,setData}) => {
         onChange={onChange}
         // required
         maxLength={85}
-
-
       />
     </Fragment>
   );

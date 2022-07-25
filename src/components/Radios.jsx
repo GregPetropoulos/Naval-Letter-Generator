@@ -102,7 +102,7 @@ const Radios = ({ data, setData }) => {
   const handleRefTextInput = (e, index) => {
     const textRefInputs = data;
     // due to destrcuture we have access to name, value
-    const {value } = e.target;
+    const { value } = e.target;
     textRefInputs.references[index].title = value;
     setData((prev) => ({ ...prev, ...textRefInputs }));
   };
@@ -110,7 +110,7 @@ const Radios = ({ data, setData }) => {
   const handleEncTextInput = (e, index) => {
     const textRefInputs = data;
     // due to destrcuture we have access to name, value
-    const {value } = e.target;
+    const { value } = e.target;
     textRefInputs.enclosures[index].title = value;
     setData((prev) => ({ ...prev, ...textRefInputs }));
   };
@@ -160,13 +160,13 @@ const Radios = ({ data, setData }) => {
                 <div>
                   <button
                     type='button'
-                    className='btn mr-4 mb-3 btn-sm sm:btn'
+                    className='btn mr-4 mb-3 normal-case btn-xs sm:btn'
                     onClick={() => addViaInputTag(viaItem.id)}>
                     Add VIA
                   </button>
                   <button
                     type='button'
-                    className='btn btn-sm sm:btn'
+                    className='btn btn-xs normal-case sm:btn'
                     onClick={(e) => removeViaInputTag(e, index)}>
                     Remove VIA
                   </button>
@@ -218,13 +218,13 @@ const Radios = ({ data, setData }) => {
                 <div>
                   <button
                     type='button'
-                    className='btn mr-4 mb-3 btn-sm sm:btn'
+                    className='btn mr-4 mb-3 normal-case btn-xs sm:btn'
                     onClick={() => addRefInputTag(refItem.id)}>
                     Add Ref
                   </button>
                   <button
                     type='button'
-                    className='btn btn-sm sm:btn'
+                    className='btn btn-xs normal-case sm:btn'
                     onClick={(e) => removeRefInputTag(e, index)}>
                     Remove Ref
                   </button>
@@ -278,13 +278,13 @@ const Radios = ({ data, setData }) => {
                 <div>
                   <button
                     type='button'
-                    className='btn mr-4 mb-3 btn-sm sm:btn'
+                    className='btn mr-4 mb-3 normal-case btn-xs sm:btn'
                     onClick={() => addEncInputTag(encItem.id)}>
                     Add Encl
                   </button>
                   <button
                     type='button'
-                    className='btn btn-sm sm:btn'
+                    className='btn btn-xs normal-case sm:btn'
                     onClick={(e) => removeEncInputTag(e, index)}>
                     Remove Encl
                   </button>

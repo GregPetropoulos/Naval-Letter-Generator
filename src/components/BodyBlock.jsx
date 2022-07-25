@@ -141,7 +141,7 @@ const BodyBlock = ({ data, setData }) => {
                 <div className='btn-group my-2 justify-center'>
                   <button
                     type='button'
-                    className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
+                    className='btn btn-xs my-2 bg-error-content normal-case sm:btn sm:bg-error-content'
                     disabled={
                       itemParagraph.paragraph.length === 0 ? 'disabled' : ''
                     }
@@ -158,7 +158,7 @@ const BodyBlock = ({ data, setData }) => {
           <div className='flex flex-col my-2 justify-evenly sm:flex-row-reverse sm:justify-evenly'>
             <button
               type='button'
-              className='btn btn-xs my-2 bg-error-content sm:btn sm:bg-error-content'
+              className='btn btn-xs my-2 bg-error-content normal-case sm:btn sm:bg-error-content'
               disabled={itemParagraph.paragraph.length === 0 ? 'disabled' : ''}
               onClick={() => {
                 removeParagraph(itemParagraph.pId);
@@ -167,7 +167,7 @@ const BodyBlock = ({ data, setData }) => {
             </button>
             <button
               type='button'
-              className='btn btn-xs my-2 btn-neutral-content sm:btn'
+              className='btn btn-xs my-2 btn-neutral-content normal-case sm:btn'
               disabled={
                 itemParagraph.paragraph.length === 0 ||
                 itemParagraph.subParagraph.length === 3
@@ -181,7 +181,7 @@ const BodyBlock = ({ data, setData }) => {
             </button>
             <button
               type='button'
-              className='btn btn-xs my-2 btn-neutral-content sm:btn'
+              className='btn btn-xs my-2 btn-neutral-content normal-case sm:btn'
               onClick={() => addParagraph(itemParagraph.pId)}
               disabled={
                 itemParagraph.paragraph.length === 0 ||

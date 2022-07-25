@@ -21,7 +21,8 @@ outside the DoD.
 - ~~Build out the basic components (input fields, buttons, etc..)~~
 - ~~Bring all the components together and styles~~
 - ~~Once UI finished, Work through the UX (Dynamic Radio buttons etc)~~
-- Submit all state values into a form or into a word docx
+- ~~Migrated all component level state to App.js~~
+- Submit App level state values into a form or into a word docx
 - Validate from fields
 - Handle the letter editing with js
 - Deploy Github/Vercel
@@ -38,6 +39,7 @@ outside the DoD.
 
 - Tool tips for clarity
 - FAQ page
+- Letter Type dropdown
 - Reset button
 - Add paragraphs and sub paragraphs
 - Delete paragraphs and sub paragraphs
@@ -333,3 +335,6 @@ Subj: PROGRAM ACQUISITION PROCESS FOR THE ADVANCED SEA-BASED TARGET PROFILING RA
 
 - SNDL - Standard Navy Distribution List
 - SSIC - Standard Subject Identification Code.
+
+## Links
+[SECNAV MANUAL 5216.5](./src/assets/NavalLetter-5216.5.pdf)

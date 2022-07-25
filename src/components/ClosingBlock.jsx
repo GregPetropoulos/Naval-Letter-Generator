@@ -1,8 +1,7 @@
 import { Fragment, useState } from 'react';
 
-const ClosingBlock = ({ data, setData }) => {
+const ClosingBlock = ({ initialState, data, setData }) => {
   const [copyIsChecked, setCopyIsChecked] = useState(false);
-  // const [addCopyInput, setAddCopyInput] = useState([]);
   const dataCopyTo = data.copyTo;
   // If the Copy to radio button is checked Yes, show the first input field and add button
   // If an additional VIA field is added show the remove button
@@ -20,7 +19,6 @@ const ClosingBlock = ({ data, setData }) => {
 
   // * HANDLING THE ADDITION OF HTML INPUT ELEMENTS
   const addCopyInputTag = (id) => {
-    // setData((prev) => ({...prev, copyTo: [''] }));
     setData((prev) => ({
       ...prev,
       copyTo: [...prev.copyTo, { cId: id++, copy: '' }]
@@ -38,15 +36,10 @@ const ClosingBlock = ({ data, setData }) => {
 
   // * HADLING THE ONCHANGES FOR TEXT INPUTS
   const handleCopyTextInput = (e, index) => {
-    // const textCopyInputs = [...addCopyInput];
     const textCopyInputs = dataCopyTo;
-
-    console.log('textcopy inputs', textCopyInputs);
-    console.log('index', index);
     const { name, value } = e.target;
     textCopyInputs[index][name] = value;
-    console.log("textCopyInputs",textCopyInputs);
-    setData(prev=> ({...prev, copyTo:textCopyInputs}));
+    setData((prev) => ({ ...prev, copyTo: textCopyInputs }));
   };
   // Inline onChange for the Closing Block signature
   return (
@@ -119,7 +112,7 @@ const ClosingBlock = ({ data, setData }) => {
               {dataCopyTo.length - 1 === index && dataCopyTo.length < 10 && (
                 <button
                   type='button'
-                  className='btn mr-4 mb-3 btn-sm sm:btn'
+                  className='btn mr-4 mb-3 btn-xs normal-case sm:btn'
                   onClick={() => addCopyInputTag(item.cId)}>
                   Add Copy To
                 </button>
@@ -128,7 +121,7 @@ const ClosingBlock = ({ data, setData }) => {
               {dataCopyTo.length > 1 && (
                 <button
                   type='button'
-                  className='btn btn-sm sm:btn'
+                  className='btn btn-xs normal-case sm:btn'
                   onClick={() => removeCopyInputTag(item.cId)}>
                   Remove Copy
                 </button>
@@ -139,8 +132,14 @@ const ClosingBlock = ({ data, setData }) => {
 
       <button
         type='submit'
-        className='block btn btn-sm my-3 btn-info sm:btn-lg sm:flex sm:w-1/2 '>
+        className='block btn btn-xs my-3 btn-info sm:btn sm:flex sm:w-1/2 '>
         Generate Naval Letter
+      </button>
+      <button
+        type='reset'
+        onClick={()=> setData(initialState)}
+        className='block btn btn-xs my-3 btn-info sm:btn sm:flex sm:w-1/2 '>
+        Reset
       </button>
     </Fragment>
   );
