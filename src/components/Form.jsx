@@ -6,14 +6,17 @@ import InputFields from './InputFields';
 import Radios from './Radios';
 import BodyBlock from './BodyBlock';
 import ClosingBlock from './ClosingBlock';
-const Form = ({ initialState, data, setData }) => {
 
+
+const Form = ({ initialState, data, setData }) => {
+const {filename}=data
+
+// !docx approach
 const generate=()=>{
   const doc =  new Document(StandardLetterDocument(data))
-  
   Packer.toBlob(doc).then(blob => {
     console.log(blob);
-    saveAs(blob, "StandardNavalLetter.docx");
+    saveAs(blob,`${filename}`);
     console.log("Document created successfully");
   });
 }
@@ -55,9 +58,3 @@ const generate=()=>{
 };
 
 export default Form;
-
-// {/* <main className='container mx-auto'>
-//       <Header />
-//       <Form data={data} setData={setData} />
-//      <Footer /> footer must go in the form for now, its pushing on UI AT 275px and less
-//     </main> */}

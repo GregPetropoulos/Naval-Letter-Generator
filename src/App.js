@@ -11,6 +11,10 @@ import Executive from './components/Executive';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+// Notes
+// 1. if filename not chosen implement default letter type. so the download is saved even if user has an empty string 
+// 2.
+
 function App() {
   const initialState = {
     copyTo: [{ cId: 1, copy: '' }],

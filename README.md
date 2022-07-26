@@ -2,11 +2,37 @@
 
 ## Intro
 
-I discovered the [Naval Letter Generator](https://marines.dev/projects/#naval-letter-format-generator-application) project on the [Marine Coders](https://marines.dev/) website that could be improved. The form is here
+I discovered the [Naval Letter Generator](https://marines.dev/projects/#naval-letter-format-generator-application) project on the [Marine Coders](https://marines.dev/) website that could be enhanced. The original form is here
 [Naval Letter Form](https://marines.dev/_pages/naval_letter_js_test.html)
 
 Purpose of the letter is to reduce the time and effort to create a naval letter via web application and produce a correclty formatted word docx. Use the standard letter format or one of its variations to correspond officially within or
 outside the DoD.
+
+## Table of Contents
+- [Naval Letter Types](#naval-letter-types)
+- [Sprints](#sprints)
+- [State Management](#state-management)
+- [Dependencies](#dependencies)
+- [Features](#features)
+- [Icebox Goals](#icebox-goals)
+- [Challenges](#challenges)
+- Form's Component Structure
+  - [Input Fields](#input-fields)
+  - [Reply Block](#reply-block)
+  - [Radio Buttons](#radio-buttons)
+  - [Body Block](#body-block)
+  - [Closing Block](#closing-block)
+  - [Submitting The Form](#submitting-the-form)
+- [Manual Testing](#manual-testing)
+- [Naval Letter Format Examples](#naval-letter-format-examples-referencing-the-naval-letter-secnav-m-52165-june-2015) 
+- [Acronyms](#acronyms)
+- [Links](#links)
+
+## How To Use The Application
+- Select the the letter type from `dropdown`
+- Fill out the form 
+- Click the  **Generate Naval Letter** `button`
+- *** No information is stored locally or to a database
 
 ## Naval Letter Types
 
@@ -37,10 +63,10 @@ outside the DoD.
 
 ## Dependencies
 - react-router-dom
-- TailwwindUI
-- DaisyUi
+- TailwindUI
+- daisyUI
 - file-saver
-- Docx
+- docx
 
 ## Features
 
@@ -56,7 +82,14 @@ outside the DoD.
 ## Icebox Goals
 
 - Letter Types drop down menu for four variations of letter types
+- Text editor/Autocomplete (Think Grammarly)
 
+## Challenges
+
+- Several state variables with nested array objects
+- Unreliable deps for converting to word document
+
+## Form Component Structure
 ## Input Fields
 - **<span style="color:green">File Name</span>**
     - Maximum characters 85
@@ -142,11 +175,11 @@ outside the DoD.
   - No Validation
 
 ## Submitting The Form
-Once the form is submitted the values will be in a json data structure
-- State--> into JSON body
+
+Once the **Generate Naval Letter** `button` is clicked the form is submitted and the `StandardLetterDocument.js` function will supply the state values via passed props to create the formatted letter as a `new Document`. The `Packer` will utilize the `toBlob` method and return a promise and save as as **StandardNavalLetter.docx** file for download.
 
 
-# Testing
+## Manual Testing
 
 **Paragraph Test**
 
@@ -183,7 +216,7 @@ Live edit on all paragraphs and sub paragraphs
 -------------------
 
 
-# Naval Letter Format Examples (Referencing the Naval Letter SECNAV M-5216.5 June 2015)
+## Naval Letter Format Examples (Referencing the Naval Letter SECNAV M-5216.5 June 2015)
 
 To better help what each line should appear and an example use case to delinieate any validation or required fields
 
@@ -334,7 +367,7 @@ Subj: PROGRAM ACQUISITION PROCESS FOR THE ADVANCED SEA-BASED TARGET PROFILING RA
   COMNAVPERSCOM (PERS 313C, PERS 49) 
   ```
 
-# **Standard Naval Letter**
+## **Standard Naval Letter**
 
 ![Standard](./src/assets/images/standard-naval-letter.png)
 
@@ -345,3 +378,5 @@ Subj: PROGRAM ACQUISITION PROCESS FOR THE ADVANCED SEA-BASED TARGET PROFILING RA
 
 ## Links
 [SECNAV MANUAL 5216.5](./src/assets/NavalLetter-5216.5.pdf)
+
+[Back to the Top](#naval-letter-generator)
