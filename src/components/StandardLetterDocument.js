@@ -8,9 +8,9 @@ import {
   TabStopType,
   TextRun,
   Header,
-  Footer
+  Footer,
+  SectionType
 } from 'docx';
-
 
 // Pass props from the form and use template literals for strings
 const StandardLetterDocument = (data) => {
@@ -37,39 +37,30 @@ const StandardLetterDocument = (data) => {
 
   const senderSymbols = () => {
     console.log('headingformatter');
+
     return new Paragraph({
-      // font: {
-      //   name: 'Times New Roman'
-      // },
-      alignment: AlignmentType.RIGHT,
       children: [
-        new TextRun({ text: `${ssic}`, break: 1 }),
-        new TextRun({ text: `${originatorCode}`, break: 1 }),
-        new TextRun({ text: `${date}`, break: 1 })
-        // new Paragraph({
-        //   text:`${ssic}`,
-        //   heading: HeadingLevel.HEADING_3,
-        //   alignment: AlignmentType.RIGHT
-        // }),
-        // new Paragraph({
-        //   text:`${originatorCode}`,
-        //   heading: HeadingLevel.HEADING_3,
-        //   alignment: AlignmentType.RIGHT
-        // }),
-        // new Paragraph({
-        //   text:`${date}`,
-        //   heading: HeadingLevel.HEADING_3,
-        //   alignment: AlignmentType.RIGHT
-        // })
-      ]
+        new TextRun({
+          text: `${ssic}`,
+          break: 1
+        }),
+        new TextRun({
+          text: `${originatorCode}`,
+          break: 1
+        }),
+        new TextRun({
+          text: `${date}`,
+          break: 1
+        })
+      ],
+      alignment: AlignmentType.RIGHT
       //   indent: {
       //     start: "5.19in",
-      // }
+      // },
     });
   };
 
   return {
-    
     // Need DOD seals here
     sections: [
       {
@@ -80,26 +71,61 @@ const StandardLetterDocument = (data) => {
           right: '1in',
           left: '1in'
         },
-        // *SEALS HEADER
+        // *1ST HEADER DOD SEALS
         headers: {
           default: new Header({
             children: [
               new Paragraph({
-                text: 'DOD STAMPS AND SEALS INFO HERE',
+                text: 'DEPT OF THE NAVY',
                 heading: HeadingLevel.HEADING_3,
                 alignment: AlignmentType.CENTER,
                 break: 1
-              })
+              }),
+              new Paragraph({
+               children:[
+                 new TextRun({text:'NAVY PERSONNEL COMMAND',break:1}),
+                 new TextRun({text:'5720 INTEGRITY DRIVE', break:1}),
+                 new TextRun({text:'MILLINGTON TN 38055-0130', break:1}),
+               ],
+              }),
+              new Paragraph({
+                text: 'SEAL HERE',
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.LEFT,
+                break: 1
+              }),
+              new Paragraph({
+                text: `${ssic}`,
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.RIGHT,
+                break: 2
+              }),
+              new Paragraph({
+                text: `${originatorCode}`,
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.RIGHT,
+                break: 1
+              }),
+              new Paragraph({
+                text: `${date}`,
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.RIGHT,
+                break: 1
+              }),
             ]
           })
         },
 
         children: [
-          // * SENDER SYMBOLS HEADER
-          senderSymbols(),
+          // * 2nd HEADER SENDER SYMBOLS
+          // TODO SPACING GOOD
 
           // *ADDRESS LINE 1,2,3,
+          // TODO SPACING GOOD
           new Paragraph({
+            spacing: {
+              before: 200
+            },
             children: [
               new TextRun({
                 text: `${line1UnitName}`,
@@ -120,29 +146,68 @@ const StandardLetterDocument = (data) => {
                 font: {
                   name: 'Times New Roman'
                 },
-                break: 4
+                break: 1
               })
             ]
           }),
-          // *FROM
 
-          // *TO
+          // *FROM AND TO
+
+          new Paragraph({
+            spacing: {
+              before: 200
+            },
+            children: [
+              new TextRun({ text: `${fromBilletUnitName}`, break: 1 }),
+
+              new TextRun({ text: `${toBilletUnitName}`, break: 1 })
+            ]
+          }),
 
           // *SUBJECT
-          new Paragraph({ text: `${subject}`, break: 1 }),
+          new Paragraph({
+            spacing: {
+              before: 200
+            },
+            text: `${subject}`
+          }),
 
-          //*PARAGRAPH BODY ARRAYS AND NEST ARRAY
-          new Paragraph(
-            new TextRun(`(${paragraphs.pId})`),
-            new TextRun(`${paragraphs.paragraph}`)
-          )
-          // *VIA ARRAY 
-          // *REFERENCES ARRAY 
-          // *ENCLOSURES ARRAY 
-          // *TITLE
-          // *SIGNATURE
+          //*PARAGRAPH BODY ARRAYS AND NEST ARRAY WILL NEED TO DOUBLE LOOP
+          // new Paragraph({text:`${paragraphs.paragraph}`})
+          new Paragraph({
+            spacing: {
+              before: 200
+            },
+            text: 'pargraphs lorem lorem lorem'
+          })
+
+          // *VIA ARRAY
+          // *REFERENCES ARRAY
+          // *ENCLOSURES ARRAY
           // *COPYTO ARRAY
-        ]
+        ],
+
+
+        // *TITLE
+        // *SIGNATURE
+        footers: {
+          default: new Footer({
+            children: [
+              new Paragraph({
+                text: `${signature}`,
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.CENTER,
+                break: 1
+              }),
+              new Paragraph({
+                text: `${sigTitle}`,
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.CENTER,
+                break: 1
+              })
+            ]
+          })
+        }
       }
     ]
   };
