@@ -33,13 +33,13 @@ const StandardLetterDocument = (data) => {
     signature,
     ssic,
     subject,
-    toBilletUnitName
+    toBilletUnitName,
     // via: [{ id, title }]
+    via
   } = data;
 
   const senderSymbols = () => {
     console.log('headingformatter');
-    
 
     return new Paragraph({
       children: [
@@ -62,30 +62,23 @@ const StandardLetterDocument = (data) => {
       // },
     });
   };
-  const generateImgUrl = async () => {
-    return await fetch(
-      'https://github.com/GregPetropoulos/Naval-Letter-Generator/blob/main/src/assets/images/dod-header-seal.png?raw=true' // => my server
-    ).then((r) => r.blob());
-  };
 
-  const imageUrl = "https://github.com/GregPetropoulos/Naval-Letter-Generator/blob/main/src/assets/images/dod-header-seal.png?raw=true";
+  //
+  const imgUrl =
+    'https://raw.githubusercontent.com/GregPetropoulos/Naval-Letter-Generator/blob/main/src/assets/images/dod-header-seal.png';
 
-  const imgUrl='https://raw.githubusercontent.com/GregPetropoulos/Naval-Letter-Generator/blob/main/src/assets/images/dod-header-seal.png'
-  
-
-  const genImageUrl= async () => {
-    const response = await fetch(imgUrl)
-    const imageBlob = await response.blob()
+  const genImageUrl = async () => {
+    const response = await fetch(dodSeal);
+    const imageBlob = await response.blob();
     const reader = new FileReader();
     reader.readAsDataURL(imageBlob);
     reader.onloadend = () => {
       const base64data = reader.result;
       console.log(base64data);
-    }
-  }
+    };
+  };
 
   return {
-    // Need DOD seals here
     sections: [
       {
         properties: {},
@@ -95,16 +88,15 @@ const StandardLetterDocument = (data) => {
           right: '1in',
           left: '1in'
         },
-        // *1ST HEADER DOD SEALS
+
+        // *1ST HEADER DOD SEALS, Address and SSIC,ORIGINATORSCODE, AND DATE
         headers: {
           default: new Header({
             children: [
+              //  !THE IMAGE FOR THE SEAL NEEDS WORK
               // new Paragraph({
               //   alignment: AlignmentType.LEFT,
 
-              //   // spacing: {
-              //   //   before: 200
-              //   // },
               //   children: [
               //     new ImageRun({
               //       data: genImageUrl(),
@@ -115,21 +107,10 @@ const StandardLetterDocument = (data) => {
               //     })
               //   ]
               // }),
-              // text: 'SEAL HERE',
-              // heading: HeadingLevel.HEADING_3,
-              // alignment: AlignmentType.LEFT
-              // break: 1
-              // }),
-              // new Paragraph({
-              //   // spacing: {
-              //   //   before: 250
-              //   // },
-              //   text: 'DEPT OF THE NAVY',
-              //   heading: HeadingLevel.HEADING_3,
-              //   alignment: AlignmentType.CENTER
-              //   // break: 1
-              // }),
+
               new Paragraph({
+                heading: HeadingLevel.HEADING_3,
+                alignment: AlignmentType.CENTER,
                 children: [
                   new TextRun({
                     text: 'UNITED STATES MARINE CORPS',
@@ -137,6 +118,7 @@ const StandardLetterDocument = (data) => {
                     font: 'Times New Roman'
                     // size: 20
                   }),
+
                   // line1UnitName
                   new TextRun({
                     text: '3d Bn 8th Mar 2d MarDiv',
@@ -146,27 +128,24 @@ const StandardLetterDocument = (data) => {
                   }),
 
                   // line2Address,
-
                   new TextRun({
                     text: 'PSC BOX 20104',
                     break: 1,
                     font: 'Times New Roman'
                     // size: 16
                   }),
-                  // line3Address,
 
+                  // line3Address,
                   new TextRun({
                     text: 'Camp Lejeune, NC 28542',
                     break: 1,
                     font: 'Times New Roman'
                     // size: 16
                   })
-                ],
-                heading: HeadingLevel.HEADING_3,
-
-                alignment: AlignmentType.CENTER
+                ]
               }),
 
+              // * 2nd HEADER SENDER SYMBOLS
               new Paragraph({
                 // text: `${ssic}`,
                 text: '12345',
@@ -193,45 +172,99 @@ const StandardLetterDocument = (data) => {
         },
 
         children: [
-          // * 2nd HEADER SENDER SYMBOLS
-
           // *FROM AND TO
           new Paragraph({
-            spacing: {
-              before: 200
-            },
+            // spacing: {
+            //   after: 200
+            // },
             children: [
               // new TextRun({ text: `FROM: ${fromBilletUnitName}`, break: 1 }),
-              new TextRun({ text: `FROM: Greg Petropoulos`, break: 1 }),
-
+              new TextRun({ text: `From:  Greg Petropoulos`, break: 1 }),
 
               // new TextRun({ text: `TO: ${toBilletUnitName}`, break: 1 })
-              new TextRun({ text: `TO: Jody Smuckatelli`, break: 1 })
+              new TextRun({ text: `To:      Jody Smuckatelli`, break: 1 })
+
+              // Spacer
+              // new TextRun({ text: '', break: 2 })
             ]
           }),
 
-
-          // *VIA ARRAY
-          // *REFERENCES ARRAY
-          // *ENCLOSURES ARRAY
-
+          // *VIA ARRAY,SPACED TEMPLITERALS FOR FORMATTING
+          new Paragraph({
+            children: via.map((viaItem) =>
+              viaItem.id === 1
+                ? new TextRun({
+                    text: `Via:    (${viaItem.id}) ${viaItem.title}`
+                  })
+                : new TextRun({
+                    text: `          (${viaItem.id}) ${viaItem.title}`,
+                    break: 1
+                  })
+            )
+          }),
 
           // *SUBJECT
           new Paragraph({
-            spacing: {
-              before: 200
-            },
             // text: `${subject}`
-            text: `PROMOTION`
+            children: [
+              // new TextRun({ text: '', break: 1 }),
+              new TextRun({ text: `Subj:  PROMOTION`, break: 1 }),
+              new TextRun({ text: '', break: 1 })
+            ]
+            // spacing: {
+            //   before: 5000,
+            //   after:5000
+            // },
           }),
 
-          //*PARAGRAPH BODY ARRAYS AND NEST ARRAY WILL NEED TO DOUBLE LOOP
-          // new Paragraph({text:`${paragraphs.paragraph}`})
+          // *REFERENCES ARRAY
           new Paragraph({
-            spacing: {
-              before: 200
-            },
-            text: '(1) pargraphs lorem lorem lorem'
+            // text: `${subject}`
+
+            children: references.map((refItem) =>
+              refItem.id === 1
+                ? new TextRun({
+                    text: `Ref:   (${refItem.id}) ${refItem.title}`
+                  })
+                : new TextRun({
+                    text: `          (${refItem.id}) ${refItem.title}`,
+                    break: 1
+                  })
+            )
+          }),
+          // *ENCLOSURES ARRAY
+          new Paragraph({
+            // text: `${subject}`
+
+            children: enclosures.map((enclItem) =>
+              enclItem.id === 1
+                ? new TextRun({
+                    text: `Encl:  (${enclItem.id}) ${enclItem.title}`,break: 1
+                  })
+                : new TextRun({
+                    text: `          (${enclItem.id}) ${enclItem.title}`,
+                    break: 1
+                  })
+            )
+          }),
+
+
+          //*PARAGRAPH BODY ARRAYS AND NEST ARRAY WILL NEED TO DOUBLE LOOP
+          new Paragraph({
+            children: paragraphs.map((paraItem) =>
+          paraItem.paragraph.length>0
+              ? new TextRun({
+                  text: `(${paraItem.pId}) ${paraItem.paragraph}`,break: 1
+                })
+              :paraItem.paragraph.length>0&& paraItem.subParagraph.length>0&&paraItem.subParagraph.name===paragraphs.subParagraph.name? new TextRun({
+                  text: `        (${(paraItem.subParagraph.name==='subA'&& 'a') ||(paraItem.subParagraph.name==='subB'&& 'b')||(paraItem.subParagraph.name==='subC'&& 'c')})  ${paraItem.text}`,
+                  break: 1
+                }):null
+          )
+            // spacing: {
+            //   before: 200
+            // },
+            // text: '(1) pargraphs lorem lorem lorem'
           }),
           new Paragraph({
             spacing: {
@@ -258,7 +291,7 @@ const StandardLetterDocument = (data) => {
               }),
               new Paragraph({
                 // text: `${sigTitle}`,
-                text: "CPL",
+                text: 'CPL',
 
                 heading: HeadingLevel.HEADING_3,
                 alignment: AlignmentType.CENTER,
