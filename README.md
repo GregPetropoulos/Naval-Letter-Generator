@@ -380,3 +380,5 @@ Subj: PROGRAM ACQUISITION PROCESS FOR THE ADVANCED SEA-BASED TARGET PROFILING RA
 [SECNAV MANUAL 5216.5](./src/assets/NavalLetter-5216.5.pdf)
 
 [Back to the Top](#naval-letter-generator)
+
+[Spread Nested Arrays](https://betterprogramming.pub/understanding-the-javascript-spread-operator-from-beginner-to-expert-part-2-1ec1808d015e)
