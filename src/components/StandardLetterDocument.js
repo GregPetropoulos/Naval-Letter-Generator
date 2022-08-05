@@ -39,32 +39,6 @@ const StandardLetterDocument = (data) => {
     via
   } = data;
 
-  // const senderSymbols = () => {
-  //   console.log('headingformatter');
-
-  //   return new Paragraph({
-  //     children: [
-  //       new TextRun({
-  //         text: `${ssic}`,
-  //         break: 1
-  //       }),
-  //       new TextRun({
-  //         text: `${originatorCode}`,
-  //         break: 1
-  //       }),
-  //       new TextRun({
-  //         text: `${date}`,
-  //         break: 1
-  //       })
-  //     ],
-  //     alignment: AlignmentType.RIGHT
-  //     //   indent: {
-  //     //     start: "5.19in",
-  //     // },
-  //   });
-  // };
-
-  //
   const imgUrl =
     'https://raw.githubusercontent.com/GregPetropoulos/Naval-Letter-Generator/blob/main/src/assets/images/dod-header-seal.png';
 
@@ -91,25 +65,26 @@ const StandardLetterDocument = (data) => {
         // size: 20
       }),
 
-      // line1UnitName
+
       new TextRun({
-        text: '3d Bn 8th Mar 2d MarDiv',
+        // text: '3d Bn 8th Mar 2d MarDiv',
+      text: `${line1UnitName}`,
         font: 'Times New Roman',
         // size: 16,
         break: 1
       }),
 
-      // line2Address,
       new TextRun({
-        text: 'PSC BOX 20104',
+        // text: 'PSC BOX 20104',
+      text: `${line2Address}`,
         break: 1,
         font: 'Times New Roman'
         // size: 16
       }),
 
-      // line3Address,
       new TextRun({
-        text: 'Camp Lejeune, NC 28542',
+        // text: 'Camp Lejeune, NC 28542',
+      text: `${line3Address}`,
         break: 1,
         font: 'Times New Roman'
         // size: 16
@@ -117,53 +92,83 @@ const StandardLetterDocument = (data) => {
     ]
   });
   // * 2nd HEADER SENDER SYMBOLS
-  const senderSymbols =
-    (new Paragraph({
-      // text: `${ssic}`,
-      text: '12345',
-      heading: HeadingLevel.HEADING_3,
-      alignment: AlignmentType.RIGHT,
-      break: 2
-    }),
-    new Paragraph({
-      // text: `${originatorCode}`,
-      text: 'Ser 310/403',
-      heading: HeadingLevel.HEADING_3,
-      alignment: AlignmentType.RIGHT,
-      break: 1
-    }),
-    new Paragraph({
-      // text: `${date}`,
-      text: '10 Nov 75',
-      heading: HeadingLevel.HEADING_3,
-      alignment: AlignmentType.RIGHT,
-      break: 1
-    }));
-  const footerParagraphs =
-    (new Paragraph({
+  const senderSymbols = new Paragraph({
+    heading: HeadingLevel.HEADING_3,
+    alignment: AlignmentType.RIGHT,
+    children: [
+      new TextRun({
+        // text: '12345',
+      text: `${ssic}`,
+        // bold: true,
+        font: 'Times New Roman',
+        break: 2
+        // size: 20
+      }),
+
+      new TextRun({
+        // text: 'Ser 310/403',
+      text: `${originatorCode}`,
+        font: 'Times New Roman',
+        // size: 16,
+        break: 1
+      }),
+      // DATE
+      new TextRun({
+      text: `${date}`,
+        break: 1,
+        font: 'Times New Roman'
+        // size: 16
+      })
+    ]
+  });
+  //   (new Paragraph({
+  //     // text: `${ssic}`,
+  //     text: '12345',
+  //     heading: HeadingLevel.HEADING_3,
+  //     alignment: AlignmentType.RIGHT,
+  //     break: 2
+  //   }),
+  //   new Paragraph({
+  //     // text: `${originatorCode}`,
+  //     text: 'Ser 310/403',
+  //     heading: HeadingLevel.HEADING_3,
+  //     alignment: AlignmentType.RIGHT,
+  //     break: 1
+  //   }),
+  //   new Paragraph({
+  //     // text: `${date}`,
+  //     text: '10 Nov 75',
+  //     heading: HeadingLevel.HEADING_3,
+  //     alignment: AlignmentType.RIGHT,
+  //     break: 1
+  //   }));
+
+  const footerParagraphs = new Paragraph({
+    heading: HeadingLevel.HEADING_3,
+    alignment: AlignmentType.CENTER,
+    children: [
       // text: `${signature}`,
-      text: 'G.N. PETROPOULOS',
+      new TextRun({
+        text: `${signature}`,
+        // bold: true,
+        font: 'Times New Roman',
+        break: 1
+      }),
 
-      heading: HeadingLevel.HEADING_3,
-      alignment: AlignmentType.CENTER,
-      break: 1
-    }),
-    new Paragraph({
-      // text: `${sigTitle}`,
-      text: 'CPL',
-
-      heading: HeadingLevel.HEADING_3,
-      alignment: AlignmentType.CENTER,
-      break: 1
-    }));
+      new TextRun({
+        text: `${sigTitle}`,
+        font: 'Times New Roman',
+        break: 1
+      })
+    ]
+  });
 
   const fromToSection = new Paragraph({
     children: [
-      // new TextRun({ text: `FROM: ${fromBilletUnitName}`, break: 1 }),
-      new TextRun({ text: `From:  Greg Petropoulos`, break: 1 }),
-
-      // new TextRun({ text: `TO: ${toBilletUnitName}`, break: 1 })
-      new TextRun({ text: `To:      Jody Smuckatelli`, break: 1 })
+      // new TextRun({ text: `From:  Greg Petropoulos`, break: 1 }),
+      new TextRun({ text: `FROM: ${fromBilletUnitName}`, break: 1 }),
+      // new TextRun({ text: `To:      Jody Smuckatelli`, break: 1 }),
+      new TextRun({ text: `TO:      ${toBilletUnitName}`, break: 1 })
       // Spacer
       // new TextRun({ text: '', break: 2 })
     ]
@@ -183,10 +188,9 @@ const StandardLetterDocument = (data) => {
   });
 
   const subjectSection = new Paragraph({
-    // text: `${subject}`
     children: [
       // new TextRun({ text: '', break: 1 }),
-      new TextRun({ text: `Subj:  PROMOTION`, break: 1 }),
+      new TextRun({ text: `Subj:  ${subject}`, break: 1 }),
       new TextRun({ text: '', break: 1 })
     ]
     // spacing: {
@@ -210,8 +214,6 @@ const StandardLetterDocument = (data) => {
     )
   });
   const enclosureSection = new Paragraph({
-    // text: `${subject}`
-
     children: enclosures.map((enclItem) =>
       enclItem.id === 1
         ? new TextRun({
@@ -227,59 +229,43 @@ const StandardLetterDocument = (data) => {
 
   console.log('...paragraphs', ...paragraphs);
   const handleBodyBlock = () => {
-    // * PARAGRAPHS LOOP
+    // * PARAGRAPHS LOOP--ISSUE WITH GETTING SUB PARAGRAPHS TO SHOW UP ON THE DOC
     const allBodyParagraphs = new Paragraph({
-      children: paragraphs.map(
-        (paraItem) =>
-          paraItem.paragraph.length > 0 &&
-          new TextRun({
-            text: `(${paraItem.pId}) ${paraItem.paragraph}`,
-            break: 1
-          })
-      )
+      children: paragraphs.map((paraItem) => {
+        console.log('paraItem.length', paraItem.paragraph.length);
+
+        return paraItem.paragraph.length > 0
+          ? new TextRun({
+              text: `(${paraItem.pId}) ${paraItem.paragraph}`,
+              break: 1
+            })
+          : '';
+      })
     });
-
-    // * SUBPARAGRAPHS LOOP
-    const subs = new Paragraph({
-      level: 0,
-      children: paragraphs
-        .map((p) =>
-          p.subParagraph.map(
-            (sub) =>
-              new TextRun({
-                text: `(${
-                  (sub.name === 'subA' && 'a') ||
-                  (sub.name === 'subB' && 'b') ||
-                  (sub.name === 'subC' && 'c')
-                }) ${sub.text}`,
-                break: 1
-              })
-          )
-        )
-        .flat()
-    });
-    console.log('subs true outside IF', subs === true);
-    console.log('subs.root', subs.root);
-
-    // If the subs have a value then produce a paragraph that has a sub paragraph else just this paragraph
-    const {
-      paragraphs: [{ subParagraph }]
-    } = data;
-    if (subParagraph.length > 0) {
-      return allBodyParagraphs + subs;
-    }
-
-    // console.log("allBodyParagraphs",allBodyParagraphs.root[1].root[2].root[1])
     console.log('allBodyParagraphs', allBodyParagraphs);
+    //  SUBPARAGRAPHS LOOP WIP
+    // console.log("allBodyParagraphs",allBodyParagraphs.root[1].root[2].root[1])
     return allBodyParagraphs;
   };
-  const copyToSection = new Paragraph({});
-  const sigTitleSection = new Paragraph({});
-  
+
+  const copyToSection = new Paragraph({
+    children: copyTo.map((copyItem) =>
+      copyItem.cId === 1
+        ? new TextRun({
+            text: `Copy to:  ${copyItem.copy}`,
+            break: 1
+          })
+        : new TextRun({
+            text: `Copy to:  ${copyItem.copy}`,
+            break: 1
+          })
+    )
+  });
+
   //*------------------------------------------------------------------------------
 
   // *HEADER AND GENERAL SECTION CALLBACKS
-  const headerMaker = (topHeader, senderSymbols, footerParagraphs) => {
+  const headerSectionMaker = (topHeader, senderSymbols, footerParagraphs) => {
     const sectionObj = {
       properties: { type: SectionType.CONTINUOUS },
       margins: {
@@ -288,16 +274,18 @@ const StandardLetterDocument = (data) => {
         right: '1in',
         left: '1in'
       },
+
       headers: {
         default: new Header({
           children: [topHeader, senderSymbols]
-        }),
-        footer: {
-          default: new Footer({ children: [footerParagraphs] })
-        },
-        children: []
-      }
+        })
+      },
+      footers: {
+        default: new Footer({ children: [footerParagraphs] })
+      },
+      children: []
     };
+
     return sectionObj;
   };
 
@@ -319,7 +307,8 @@ const StandardLetterDocument = (data) => {
     sections: [
       // *SECTION1 HEADERS FOOTERS SEAL
       // *1ST HEADER DOD SEALS, Address and SSIC,ORIGINATORSCODE, AND DATE
-      headerMaker(topHeader, senderSymbols, footerParagraphs),
+      headerSectionMaker(topHeader, senderSymbols, footerParagraphs),
+
       // *SECTION2 FROM AND TO
       sectionMaker(fromToSection),
 
@@ -337,43 +326,12 @@ const StandardLetterDocument = (data) => {
 
       //*SECTION7 PARAGRAPH BODY ARRAYS AND SUBPARAGRAPH NESTED ARRAY
       //* CHECK IF PARAGRAPH OR TEXT LENGTH IS>0 IF TRUE LOOP THROUGH THAT ARRAY AND PRODUCE A NEW TEXTRUN
-      sectionMaker(handleBodyBlock),
-      // *--------------------works good here
-      // new Paragraph({
-      //   children: paragraphs.map(paraItem =>
-      // paraItem.paragraph.length>0&& new TextRun({
-      //   text: `(${paraItem.pId})  ${paraItem.paragraph}`,
-      //   break: 1
-      // })
-      // )}),
-      // *--------------------
-      // *-----WORKD
-      //   new Paragraph({
-      //   children: paragraphs.map(paraItem =>
-      // paraItem.paragraph.length>0&& new TextRun({
-      //   text: `(${paraItem.pId})  ${paraItem.paragraph}`,
-      //   break: 1
-      // })
-      // )}),
-      // console.log("type of ", typeof new TextRun({text:'hello testtststst'})),
-      // ! TESTING LOOP THROUGH PARAGRAPHS THIS
-      // *THIS WORKS FOR PARAGRAPH
-      // * ----------------------------------------------------------
-      //!  ...paragraphs.map(paraItem => paraItem.paragraph.length>0&&
-      //!  new Paragraph({ text:`(${paraItem.pId}) ${paraItem.paragraph}`})),
-      // * ----------------------------------------------------------
-      // *THIS WORKS FOR SUB PARAGRAPHS
-      //  ...paragraphs.map(paraItem => paraItem.paragraph.length>0&&
-      // new Paragraph({children: [new TextRun({ text:`(${paraItem.pId}) ${paraItem.paragraph}`})]})),
-      // NEED TOGET SUB P TO SHOW UP
-      //! ...paragraphs.map(paraItem =>  paraItem.SubParagraph!==null && new Paragraph('yoyoyoy'))
-      // !STOPPED HERE NEED TO GET SUB PARAGRAPH TO SHOW UP
+      sectionMaker(handleBodyBlock()),
 
       // *SECTION8 COPYTO ARRAY
-      sectionMaker(copyToSection),
+      sectionMaker(copyToSection)
 
-      // * SECTION10 SIGNATURE AND TITLE
-      sectionMaker(sigTitleSection)
+      // *  SIGNATURE AND TITLE ARE BAKED IN FOOTER
     ]
   };
 };
