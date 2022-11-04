@@ -10,6 +10,7 @@ import {
   Header,
   Footer,
   SectionType,
+  convertInchesToTwip,
   ImageRun,
   LevelFormat
 } from 'docx';
@@ -35,7 +36,6 @@ const StandardLetterDocument = (data) => {
     ssic,
     subject,
     toBilletUnitName,
-    // via: [{ id, title }]
     via
   } = data;
 
@@ -53,7 +53,7 @@ const StandardLetterDocument = (data) => {
     };
   };
 
-  //*------------------ALL RESPECTIVE VARAIBLES BEING PASSED TP SECTION MAKER------------
+  //*------------------ALL CALLBACK ARGS GET PASSED TO SECTION MAKERS------------
   const topHeader = new Paragraph({
     heading: HeadingLevel.HEADING_3,
     alignment: AlignmentType.CENTER,
@@ -62,32 +62,24 @@ const StandardLetterDocument = (data) => {
         text: 'UNITED STATES MARINE CORPS',
         bold: true,
         font: 'Times New Roman'
-        // size: 20
       }),
 
-
       new TextRun({
-        // text: '3d Bn 8th Mar 2d MarDiv',
-      text: `${line1UnitName}`,
+        text: `${line1UnitName}`,
         font: 'Times New Roman',
-        // size: 16,
         break: 1
       }),
 
       new TextRun({
-        // text: 'PSC BOX 20104',
-      text: `${line2Address}`,
+        text: `${line2Address}`,
         break: 1,
         font: 'Times New Roman'
-        // size: 16
       }),
 
       new TextRun({
-        // text: 'Camp Lejeune, NC 28542',
-      text: `${line3Address}`,
+        text: `${line3Address}`,
         break: 1,
         font: 'Times New Roman'
-        // size: 16
       })
     ]
   });
@@ -97,51 +89,23 @@ const StandardLetterDocument = (data) => {
     alignment: AlignmentType.RIGHT,
     children: [
       new TextRun({
-        // text: '12345',
-      text: `${ssic}`,
-        // bold: true,
+        text: `${ssic}`,
         font: 'Times New Roman',
         break: 2
-        // size: 20
       }),
 
       new TextRun({
-        // text: 'Ser 310/403',
-      text: `${originatorCode}`,
+        text: `${originatorCode}`,
         font: 'Times New Roman',
-        // size: 16,
         break: 1
       }),
-      // DATE
       new TextRun({
-      text: `${date}`,
+        text: `${date}`,
         break: 1,
         font: 'Times New Roman'
-        // size: 16
       })
     ]
   });
-  //   (new Paragraph({
-  //     // text: `${ssic}`,
-  //     text: '12345',
-  //     heading: HeadingLevel.HEADING_3,
-  //     alignment: AlignmentType.RIGHT,
-  //     break: 2
-  //   }),
-  //   new Paragraph({
-  //     // text: `${originatorCode}`,
-  //     text: 'Ser 310/403',
-  //     heading: HeadingLevel.HEADING_3,
-  //     alignment: AlignmentType.RIGHT,
-  //     break: 1
-  //   }),
-  //   new Paragraph({
-  //     // text: `${date}`,
-  //     text: '10 Nov 75',
-  //     heading: HeadingLevel.HEADING_3,
-  //     alignment: AlignmentType.RIGHT,
-  //     break: 1
-  //   }));
 
   const footerParagraphs = new Paragraph({
     heading: HeadingLevel.HEADING_3,
@@ -165,12 +129,8 @@ const StandardLetterDocument = (data) => {
 
   const fromToSection = new Paragraph({
     children: [
-      // new TextRun({ text: `From:  Greg Petropoulos`, break: 1 }),
       new TextRun({ text: `FROM: ${fromBilletUnitName}`, break: 1 }),
-      // new TextRun({ text: `To:      Jody Smuckatelli`, break: 1 }),
       new TextRun({ text: `TO:      ${toBilletUnitName}`, break: 1 })
-      // Spacer
-      // new TextRun({ text: '', break: 2 })
     ]
   });
 
@@ -200,8 +160,6 @@ const StandardLetterDocument = (data) => {
   });
 
   const refSection = new Paragraph({
-    // text: `${subject}`
-
     children: references.map((refItem) =>
       refItem.id === 1
         ? new TextRun({
@@ -213,6 +171,7 @@ const StandardLetterDocument = (data) => {
           })
     )
   });
+
   const enclosureSection = new Paragraph({
     children: enclosures.map((enclItem) =>
       enclItem.id === 1
@@ -227,26 +186,6 @@ const StandardLetterDocument = (data) => {
     )
   });
 
-  console.log('...paragraphs', ...paragraphs);
-  const handleBodyBlock = () => {
-    // * PARAGRAPHS LOOP--ISSUE WITH GETTING SUB PARAGRAPHS TO SHOW UP ON THE DOC
-    const allBodyParagraphs = new Paragraph({
-      children: paragraphs.map((paraItem) => {
-        console.log('paraItem.length', paraItem.paragraph.length);
-
-        return paraItem.paragraph.length > 0
-          ? new TextRun({
-              text: `(${paraItem.pId}) ${paraItem.paragraph}`,
-              break: 1
-            })
-          : '';
-      })
-    });
-    console.log('allBodyParagraphs', allBodyParagraphs);
-    //  SUBPARAGRAPHS LOOP WIP
-    // console.log("allBodyParagraphs",allBodyParagraphs.root[1].root[2].root[1])
-    return allBodyParagraphs;
-  };
 
   const copyToSection = new Paragraph({
     children: copyTo.map((copyItem) =>
@@ -264,7 +203,7 @@ const StandardLetterDocument = (data) => {
 
   //*------------------------------------------------------------------------------
 
-  // *HEADER AND GENERAL SECTION CALLBACKS
+  // * SECTION MAKERS
   const headerSectionMaker = (topHeader, senderSymbols, footerParagraphs) => {
     const sectionObj = {
       properties: { type: SectionType.CONTINUOUS },
@@ -289,6 +228,7 @@ const StandardLetterDocument = (data) => {
     return sectionObj;
   };
 
+
   const sectionMaker = (paragraphSection) => {
     const sectionObj = {
       properties: { type: SectionType.CONTINUOUS },
@@ -302,8 +242,110 @@ const StandardLetterDocument = (data) => {
     };
     return sectionObj;
   };
+  
+
+  const paragraphsAndSubs = () => {
+  
+    const docParentParagraph = (paraItem) =>
+      new Paragraph({
+        text: paraItem.paragraph,
+        numbering: {
+          reference: 'my-number-numbering-reference',
+          level: 0
+        }
+      });
+
+    const docSubParagraph = (subItem) =>
+      new Paragraph({
+        text: subItem.text,
+        numbering: {
+          reference: 'my-sub-paragraph-reference',
+          level: 1
+        }
+      });
+
+    // !MAIN ISSUE WITH ITERATION OF NEW PARAGRAPHS WITH CHILDREN SUB PARAGRAPHS
+    const paragraphsArr= paragraphs.map(paraItem=>
+      paraItem.subParagraph.length>0? paraItem.subParagraph.map(subItem=> docSubParagraph(subItem))
+    :docParentParagraph(paraItem)).flat()
+
+    const sectionObj = {
+      properties: { type: SectionType.CONTINUOUS },
+      margins: {
+        top: '1in',
+        bottom: '1in',
+        right: '1in',
+        left: '1in'
+      },
+
+      children: paragraphsArr
+    };
+    return sectionObj;
+  };
 
   return {
+    numbering: {
+      config: [
+        {
+          levels: [
+            {
+              level: 0,
+              format: LevelFormat.DECIMAL,
+              text: '%1',
+              alignment: AlignmentType.START,
+              style: {
+                paragraph: {
+                  indent: {
+                    left: convertInchesToTwip(0.5),
+                    hanging: convertInchesToTwip(0.18)
+                  }
+                }
+              }
+            }
+          ],
+          reference: 'my-number-numbering-reference'
+        },
+        {
+          levels: [
+            {
+              level: 0,
+              format: LevelFormat.LOWER_LETTER,
+              text: '%1',
+              alignment: AlignmentType.START,
+              style: {
+                paragraph: {
+                  indent: {
+                    left: convertInchesToTwip(1),
+                    hanging: convertInchesToTwip(0.18)
+                  }
+                }
+              }
+            }
+          ],
+          reference: 'my-sub-paragraph-reference'
+        },
+        {
+          levels: [
+            {
+              level: 0,
+              format: LevelFormat.DECIMAL_ZERO,
+              text: '[%1]',
+              alignment: AlignmentType.START,
+              style: {
+                paragraph: {
+                  indent: {
+                    left: convertInchesToTwip(0.5),
+                    hanging: convertInchesToTwip(0.18)
+                  }
+                }
+              }
+            }
+          ],
+          reference: 'padded-numbering-reference'
+        }
+      ]
+    },
+
     sections: [
       // *SECTION1 HEADERS FOOTERS SEAL
       // *1ST HEADER DOD SEALS, Address and SSIC,ORIGINATORSCODE, AND DATE
@@ -323,15 +365,16 @@ const StandardLetterDocument = (data) => {
 
       // *SECTION6 ENCLOSURES ARRAY
       sectionMaker(enclosureSection),
-
-      //*SECTION7 PARAGRAPH BODY ARRAYS AND SUBPARAGRAPH NESTED ARRAY
-      //* CHECK IF PARAGRAPH OR TEXT LENGTH IS>0 IF TRUE LOOP THROUGH THAT ARRAY AND PRODUCE A NEW TEXTRUN
-      sectionMaker(handleBodyBlock()),
-
-      // *SECTION8 COPYTO ARRAY
-      sectionMaker(copyToSection)
+      
+      // *SECTION7 COPYTO ARRAY
+      sectionMaker(copyToSection),
+      
+      //*SECTION8 PARAGRAPH BODY ARRAYS AND SUBPARAGRAPH NESTED ARRAY
+      //!ONGOING ISSUE WITH DOCX RECOGNIZING SUB PARAGRAPHS OF A PARAGRAPH
+      paragraphsAndSubs()
 
       // *  SIGNATURE AND TITLE ARE BAKED IN FOOTER
+     
     ]
   };
 };
