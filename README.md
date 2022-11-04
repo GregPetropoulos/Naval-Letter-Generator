@@ -381,4 +381,5 @@ Subj: PROGRAM ACQUISITION PROCESS FOR THE ADVANCED SEA-BASED TARGET PROFILING RA
 
 [Back to the Top](#naval-letter-generator)
 
+## REFERENCES
 [Spread Nested Arrays](https://betterprogramming.pub/understanding-the-javascript-spread-operator-from-beginner-to-expert-part-2-1ec1808d015e)

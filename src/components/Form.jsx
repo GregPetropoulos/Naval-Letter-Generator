@@ -25,7 +25,7 @@ const generate=()=>{
   const onSubmit = (e) => {
     e.preventDefault();
     // TODO SUBMIT/GENERATE A DOCX FOR DOWNLOAD
-    console.log('onSubmit');
+    console.log('onSubmit generated the docx for download');
     generate()
   };
 
